@@ -1,0 +1,43 @@
+form mat-form-field{
+    width: 100%;
+}
+button{
+    background-color: #28a745 !important;
+}
+.butons{
+    margin-left: auto;
+    display: flex;
+    justify-content: end;
+}
+.buttons-2{
+    display: flex;
+    justify-content: space-between;
+}
+.btn-back{
+    background-color: #17a2b8 !important;
+}
+.pointer{
+    cursor: pointer;
+}
+.loading-layout{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.message {
+    margin-left: 16px;
+    font-size: 24px;
+    color: #fff;
+}
+@media (max-width : 576px) {
+    mat-stepper{
+        flex-direction: column;
+    }   
+}

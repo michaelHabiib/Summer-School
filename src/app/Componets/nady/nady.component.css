@@ -1,0 +1,124 @@
+
+  .timeline-group-time-monday {
+    background-color: #e0f7fa;
+  }
+  
+  .timeline-group-time-tuesday {
+    background-color: #b3e5fc;
+  }
+  
+  .timeline-group-time-wednesday {
+    background-color: #81d4fa;
+  }
+  
+  .timeline-group-time-thursday {
+    background-color: #4fc3f7;
+  }
+  
+  .timeline-group-time-friday {
+    background-color: #29b6f6;
+  }
+  .timeline-group-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .timeline { 
+    margin-left: 0;
+    border-left: none;
+  }
+  .timeline-date {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    width: 150px;
+    text-align: center;
+  }
+  .timeline-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 8px 0;
+  }
+  .timeline-group-title {
+    margin-bottom: 0;
+  }
+  .timeline-group-subtitle {
+    font-size: 16px;
+    font-weight: bold;
+    color: #1976d2;
+    margin-right: 8px;
+  
+}
+  @media only screen and (max-width: 600px) {
+    .timeline-group-title-mobile {
+      font-size: 16px;
+      font-weight: bold;
+      color: #1976d2;
+      margin-bottom: 8px;
+    }
+  
+    .timeline-group-title {
+      display: block;
+      font-size: 14px;
+      font-weight: normal;
+      margin: 8px 0 4px;
+    }
+    .timeline-group-title-wrapper {
+        flex-direction: row;
+        align-items: baseline;
+        justify-content: space-between;
+      }
+  } 
+  .timeline-group-times {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .timeline-group-time {
+    font-size: 14px;
+    color: #666;
+    margin-right: 8px;
+    margin-bottom: 4px;
+    padding: 4px;
+    border-radius: 4px;
+    background-color: #f1f1f1;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .timeline-group-time:hover {
+    background-color: #e0e0e0;
+  }
+  .timeline-group-title-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+  .btn-success{
+    height: 56px;
+  }
+  .loading-layout{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.img-holder{
+    width: 300px;
+    height: 250px;
+}
+.img-holder img{
+    width: 100%;
+}

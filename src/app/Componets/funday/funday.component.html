@@ -1,0 +1,61 @@
+<p>funday Reservtion</p>
+<div class="container">
+    <mat-tab-group>
+        <mat-tab label="Reservtion">
+            <mat-form-field>
+                <mat-label>Filter</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+              </mat-form-field>
+
+              
+              <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+              
+                <!-- Position Column -->
+                <ng-container matColumnDef="position">
+                  <th mat-header-cell *matHeaderCellDef> No. </th>
+                  <td mat-cell *matCellDef="let element; let i = index"> {{i+1}} </td>
+                </ng-container>
+
+                <!-- Code Column -->
+                <ng-container matColumnDef="code">
+                    <th mat-header-cell *matHeaderCellDef> Code </th>
+                    <td mat-cell *matCellDef="let element"> {{element.code}} </td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef> Name </th>
+                  <td mat-cell *matCellDef="let element"> {{element.userID.name}} </td>
+                </ng-container>
+              
+   
+              
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="color">
+                  <th mat-header-cell *matHeaderCellDef> Group Color </th>
+                  <td mat-cell *matCellDef="let element"> {{element.color}} </td>
+                </ng-container>
+
+                <!-- checkbox Column -->
+                <ng-container matColumnDef="checkbox">
+                    <th mat-header-cell *matHeaderCellDef>Check</th>
+                    <td mat-cell *matCellDef="let element">
+                        <form >
+                            <!-- <input type="checkbox" name="check"   [(ngModel)]="element.isPaid"/> -->
+                            <input type="checkbox" name="check"  (click)="submitForm(element)" [(ngModel)]="element.isPaid"/>
+                        </form>
+                    </td>
+                  </ng-container>
+              
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              
+                <!-- Row shown when there is no matching data. -->
+                <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                </tr>
+              </table> 
+        </mat-tab>
+        <mat-tab label="Export Data"></mat-tab>
+      </mat-tab-group>
+</div>

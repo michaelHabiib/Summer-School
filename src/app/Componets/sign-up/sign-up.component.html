@@ -1,0 +1,188 @@
+<div class="container" *ngIf= "!loading" >
+    <p class="fs-2 fw-bold text-center mt-4" >Sign UP</p>
+    <mat-stepper [linear]= "isLinear" #stepper labelPosition="bottom" *ngIf= "screenWidth >= 576">
+  
+        <mat-step [stepControl]= "SignUpForm1">
+            <form [formGroup]="SignUpForm1" >
+                <ng-template matStepLabel>Personal Data</ng-template>
+                <mat-form-field appearance="outline" class="mt-2">
+                  <mat-label>Name</mat-label>
+                  <input matInput placeholder="Your name" formControlName="NameForm" required>
+                  <mat-error class="fs-6 fw-bold" *ngIf="SignUpForm1.controls.NameForm.invalid">{{GetErrorNameMsg()}}</mat-error>
+                  <mat-icon matSuffix>badge</mat-icon>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Email</mat-label>
+                  <input matInput placeholder="Your Email" formControlName="EmailForm" required>               
+                  <mat-error class="fs-6 fw-bold" *ngIf="SignUpForm1.controls.EmailForm.invalid">{{GetErrorEmailMsg()}}</mat-error>
+                  <mat-icon matSuffix>email</mat-icon>
+                </mat-form-field>
+                <p *ngIf="message" class="text-danger fw-bold" >{{message}} try another Email Adress</p>  
+                <mat-form-field appearance="outline">
+                  <mat-label>password</mat-label>
+                  <input  [type]="hide ? 'password' : 'text'" matInput placeholder="Your password" formControlName="passwordForm" required >
+                  <mat-error class="fs-6 fw-bold" *ngIf="SignUpForm1.controls.passwordForm.invalid">{{GetErrorPasswordMsg()}}</mat-error>
+                  <mat-icon matSuffix class="pointer" (click)="hide = !hide">{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon> 
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>phone Number</mat-label>
+                  <input type="number" matInput placeholder="Your Phone Number" formControlName="phoneForm" required>
+                  <mat-error class="fs-6 fw-bold" *ngIf="SignUpForm1.controls.phoneForm.invalid">{{GetErrorPhoneMsg()}}</mat-error>
+                  <mat-icon matSuffix>phone</mat-icon>
+                </mat-form-field>
+                <div class=" butons">
+                  <button class="btn text-white" (click)="submitSignUp1()" mat-button matStepperNext [disabled]="!SignUpForm1.valid" >Next<mat-icon class="me-0 pe-0" matSuffix>navigate_next</mat-icon></button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]= "SignUpForm2" >
+            <form [formGroup]="SignUpForm2" >
+                <ng-template matStepLabel>Contact Data</ng-template>
+                <mat-form-field appearance="outline" class="mt-2">
+                  <mat-label>Building Number</mat-label>
+                  <input type="number" matInput placeholder="Your Building Number" formControlName="bulidingNumber" required>
+                  <mat-error class="fs-6 fw-bold" *ngIf="SignUpForm2.controls.bulidingNumber.invalid">{{GetErrorBulidingNumberMsg()}}</mat-error>
+                  <mat-icon matSuffix>counter_7</mat-icon>
+                </mat-form-field >
+                <mat-form-field appearance="outline">
+                  <mat-label>Street Name</mat-label>
+                  <input matInput placeholder="Your Street Name" formControlName="street" required>
+                  <mat-error class="fs-6 fw-bold" *ngIf="SignUpForm2.controls.street.invalid">{{GetErrorStreetMsg()}}</mat-error>
+                  <mat-icon matSuffix>home</mat-icon>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Area</mat-label>
+                  <input matInput placeholder="your Adress Area" formControlName="Area" required>
+                  <mat-error class="fs-6 fw-bold" *ngIf="SignUpForm2.controls.Area.invalid">{{GetErrorAreaMsg()}}</mat-error>
+                  <mat-icon matSuffix>area</mat-icon>
+                </mat-form-field>
+                <div class="buttons-2">
+                  <button mat-button matStepperPrevious class="btn-back text-white">Back</button>
+                  <button mat-button (click)="submitSignUp2()" matStepperNext [disabled]="!SignUpForm2.valid" class="btn text-white" >Next</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]= "SignUpForm3">
+            <form action="" [formGroup]="SignUpForm3">
+                <ng-template matStepLabel>Class Data</ng-template>
+                <mat-form-field class="mb-5" appearance="outline" class="my-2 ">
+                    <mat-label>Birthday Date</mat-label>
+                    <input matInput [matDatepicker]="picker" readonly formControlName="BirthdayDate">
+                    <mat-error class="fs-6 fw-bold" *ngIf="SignUpForm3.controls.yearForm.invalid">{{GetErrorYearMsg()}}</mat-error>
+
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker ></mat-datepicker>
+                  </mat-form-field>
+                  <label for=""> Selct Your Class</label>
+                  <select class="form-select" aria-label="Default select example mb-5 mt-5" formControlName='yearForm' >
+                    <option value="bc">Baby Class</option>
+                    <option value="kg1">kg1</option>
+                    <option value="kg2">kg2</option>
+                    <option value="prim1">prim 1</option>
+                  </select>
+                  <mat-error class="fs-6 fw-bold" *ngIf="SignUpForm3.controls.BirthdayDate.invalid">{{GetErrorBirthdayMsg()}}</mat-error>
+
+                  <div class="buttons-2 mt-3">
+                    <button mat-button matStepperPrevious class="btn-back text-white">Back</button>
+                    <button mat-button (click)="SignUp()" class="btn text-white" [disabled]="!SignUpForm3.valid"> Submit </button>
+                  </div>
+            </form>
+        </mat-step>
+    </mat-stepper>
+    <mat-vertical-stepper [linear]= "isLinear" #stepper labelPosition="bottom" *ngIf= "screenWidth < 576" >  
+        <mat-step [stepControl]= "SignUpForm1">
+            <form [formGroup]="SignUpForm1" >
+                <ng-template matStepLabel>Personal Data</ng-template>
+                <mat-form-field appearance="outline" class="mt-2">
+                  <mat-label>Name</mat-label>
+                  <input matInput placeholder="Your name" formControlName="NameForm" required>
+                  <mat-error class="fs-6 fw-bold" *ngIf="SignUpForm1.controls.NameForm.invalid">{{GetErrorNameMsg()}}</mat-error>
+                  <mat-icon matSuffix>badge</mat-icon>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Email</mat-label>
+                  <input matInput placeholder="Your Email" formControlName="EmailForm" required>                
+                  <mat-error class="fs-6 fw-bold" *ngIf="SignUpForm1.controls.EmailForm.invalid">{{GetErrorEmailMsg()}}</mat-error>
+                  <mat-icon matSuffix>email</mat-icon>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>password</mat-label>
+                  <input  [type]="hide ? 'password' : 'text'" matInput placeholder="Your password" formControlName="passwordForm" required >
+                  <mat-error class="fs-6 fw-bold" *ngIf="SignUpForm1.controls.passwordForm.invalid">{{GetErrorPasswordMsg()}}</mat-error>
+                  <mat-icon matSuffix class="pointer" (click)="hide = !hide">{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon> 
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>phone Number</mat-label>
+                  <input type="number" matInput placeholder="Your Phone Number" formControlName="phoneForm" required>
+                  <mat-error class="fs-6 fw-bold" *ngIf="SignUpForm1.controls.phoneForm.invalid">{{GetErrorPhoneMsg()}}</mat-error>
+                  <mat-icon matSuffix>phone</mat-icon>
+                </mat-form-field>
+                <div class=" butons">
+                  <button class="btn text-white" (click)="submitSignUp1()" mat-button matStepperNext [disabled]="!SignUpForm1.valid" >Next<mat-icon class="me-0 pe-0" matSuffix>navigate_next</mat-icon></button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]= "SignUpForm2" >
+            <form [formGroup]="SignUpForm2" >
+                <ng-template matStepLabel>Contact Data</ng-template>
+                <mat-form-field appearance="outline" class="mt-2">
+                  <mat-label>Building Number</mat-label>
+                  <input type="number" matInput placeholder="Your Building Number" formControlName="bulidingNumber" required>
+                  <mat-error class="fs-6 fw-bold" *ngIf="SignUpForm2.controls.bulidingNumber.invalid">{{GetErrorBulidingNumberMsg()}}</mat-error>
+    
+                </mat-form-field >
+                <mat-form-field appearance="outline">
+                  <mat-label>Street Name</mat-label>
+                  <input matInput placeholder="Your Street Name" formControlName="street" required>
+                  <mat-error class="fs-6 fw-bold" *ngIf="SignUpForm2.controls.street.invalid">{{GetErrorStreetMsg()}}</mat-error>
+    
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Area</mat-label>
+                  <input matInput placeholder="your Adress Area" formControlName="Area" required>
+                  <mat-error class="fs-6 fw-bold" *ngIf="SignUpForm2.controls.Area.invalid">{{GetErrorAreaMsg()}}</mat-error>
+    
+                </mat-form-field>
+                <div class="buttons-2">
+                  <button mat-button matStepperPrevious class="btn-back text-white">Back</button>
+                  <button mat-button (click)="submitSignUp2()" matStepperNext [disabled]="!SignUpForm2.valid" class="btn text-white" >Next</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]= "SignUpForm3">
+            <form action="" [formGroup]="SignUpForm3">
+                <ng-template matStepLabel>Class Data</ng-template>
+                <mat-form-field class="mb-5" appearance="outline" class="my-2 ">
+                    <mat-label>Birthday Date</mat-label>
+                    <input matInput [matDatepicker]="picker" readonly formControlName="BirthdayDate">
+                    <mat-error class="fs-6 fw-bold" *ngIf="SignUpForm3.controls.yearForm.invalid">{{GetErrorYearMsg()}}</mat-error>
+    
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker ></mat-datepicker>
+                  </mat-form-field>
+                  <label for=""> Selct Your Class</label>
+                  <select class="form-select" aria-label="Default select example mb-5 mt-5" formControlName='yearForm' >
+                    <option value="bc">Baby Class</option>
+                    <option value="kg1">kg1</option>
+                    <option value="kg2">kg2</option>
+                    <option value="prim1">prim 1</option>
+                  </select>
+                  <mat-error class="fs-6 fw-bold" *ngIf="SignUpForm3.controls.BirthdayDate.invalid">{{GetErrorBirthdayMsg()}}</mat-error>
+                  <div class="buttons-2 mt-3">
+                    <button mat-button matStepperPrevious class="btn-back text-white">Back</button>
+                    <button mat-button (click)="SignUp()" class="btn text-white" [disabled]="!SignUpForm3.valid"> Sign Up </button>
+                  </div>
+            </form>
+        </mat-step>
+    </mat-vertical-stepper> 
+</div>
+
+<div class="loading-layout" *ngIf= "loading">
+    <mat-spinner  class="loading" ></mat-spinner>
+        <div class="message">Loading...</div>
+</div>
+
+
+

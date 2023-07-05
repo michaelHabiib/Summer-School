@@ -1,0 +1,70 @@
+
+<div class="container my-5">
+  <div class="row">
+    <h3 class="fs-3" [@cardAnimation]>Hello <span>{{splitFirstNameOfUser(name)}}</span> Your Code is <span>{{code}}</span></h3>
+  </div>
+    <p class="fw-bold fs-2 text-center my-5">Explore Our Services</p>
+    <div class="row justify-content-center">
+        <mat-card class="example-card my-3 col-lg-3 col-md-4 col-sm-6 col-xsm-12" [@cardAnimation] >
+          <mat-card-header>
+            <img mat-card-avatar class="example-header-image ms-2"  src="../../../assets/download.jpg" alt="Custom Avatar Image">
+            <mat-card-title class="mt-2 ps-0">Funday</mat-card-title>
+            <mat-card-subtitle class="mt-1 ps-0">Now in July</mat-card-subtitle>
+          </mat-card-header>
+          <img class="main-img" mat-card-image src="../../../assets/ori_3736145_jvoab6y34d891sd2jnsltsaaqjj4mp5lp0mkn7rz_kids-fun-day-illustration.png" alt="Photo of a Shiba Inu">
+          <mat-card-content>
+            <p class="fs-6 mb-2 main-para">
+              We kindly request that you make a reservation for the upcoming funday event, so we can ensure that we have enough space and resources for all attendees. Thank you for your cooperation.
+              <br>
+              <span class="fw-bold"> Date : 15-07-2023  05:00 pm till 10:00 pm</span>
+            </p>
+          </mat-card-content>
+          <mat-card-actions class="mb-0">
+            <form action="" class="mb-0" [formGroup]="NewResForFunday" >
+              <mat-form-field class="px-1" appearance="outline">
+                <mat-label>Your code</mat-label>
+                <input matInput formControlName="CodeForm" type="number" min="1">
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Select</mat-label>
+                <mat-select formControlName="ColorGroup">
+                  <mat-option value="red">red</mat-option>
+                  <mat-option value="blue">blue</mat-option>
+                  <mat-option value="black">black</mat-option>
+                  <mat-option value="brown">brown</mat-option>
+                  <mat-option value="Green">Green</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <button (click)="AddNewResFunday()" class="btn btn-danger" [disabled]="!NewResForFunday.valid">Send</button>
+            </form>
+          </mat-card-actions>
+          <p *ngIf="message" class="text-danger fw-bold" >{{message}}</p>  
+          <mat-hint class="mt-2" >Friends Should Select The Same Color To be Togther in The Same Group</mat-hint>
+      </mat-card> 
+        <mat-card class="example-card my-3 col-lg-3 col-md-4 col-sm-6 col-xsm-12" [@cardAnimation]>
+          <mat-card-header>
+            <div ></div>
+            <img mat-card-avatar class="example-header-image ms-2"  src="../../../assets/download.jpg" alt="Custom Avatar Image">
+            <mat-card-title class="mt-2 ps-0">Kid's Carnival</mat-card-title>
+            <mat-card-subtitle class="mt-1 ps-0">During the Summer</mat-card-subtitle>
+          </mat-card-header>
+          <img class="main-img" mat-card-image src="../../../assets/bmdi_390o_161206.jpg" alt="Photo of a Shiba Inu">
+          <mat-card-content>
+            <p class="fs-6 mb-2 main-para">
+              We kindly request that you make a reservation for the upcoming funday event, so we can ensure that we have enough space and resources for all attendees. Thank you for your cooperation.
+            </p>
+            <p class="fw-bold">You can check the available time slots from here.  </p>
+            <p class="text-center">
+              <mat-icon class="arrow-icon fs-2" [@bounce]="arrowState" (click)="toggleArrowState()">expand_more</mat-icon>
+            </p>
+          </mat-card-content>
+          <mat-card-actions class="mb-0">
+            <button routerLink="/nady" class="btn carnival-button btn-danger ms-auto p-2">Book Now <mat-icon class="icon ">info_i</mat-icon></button>
+          </mat-card-actions>
+          <mat-hint class="mt-2" >Friends Should Select The Same Color To be Togther in The Same Group</mat-hint>
+        </mat-card> 
+    </div>
+</div>
+<div class="loading-layout" *ngIf= "loading">
+  <mat-spinner  class="loading" ></mat-spinner>
+</div>

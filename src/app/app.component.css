@@ -1,0 +1,38 @@
+mat-drawer-container{
+    background-color: white !important;
+    height: 100% !important;
+}
+.mat-sidenav-container {
+    height: 100%;
+  }
+.mat-drawer {
+    height: 100vh !important;
+    overflow: auto;
+  }
+app-navbar{
+    width: 100% !important;
+}
+.sidenav{
+    width: 200px !important;
+}
+mat-list-item {
+    cursor: pointer !important;
+}
+.active{
+    background-color: aqua !important;
+}
+/* Define the initial position of the arrow */
+.fa-arrow-right {
+    transition: transform 0.3s;
+    transform: translateX(0);
+  }
+  
+  /* Define the animation for the arrow when the button is hovered over */
+  .btn:hover .fa-arrow-right {
+    transform: translateX(5px);
+  }
+  
+  /* Define the animation for the arrow when the button is clicked */
+  .btn:active .fa-arrow-right {
+    transform: translateX(10px);
+  }
