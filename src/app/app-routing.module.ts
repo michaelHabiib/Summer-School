@@ -8,6 +8,7 @@ import { LandingComponent } from './Componets/landing/landing.component';
 import { AboutComponent } from './componets/about/about.component';
 import { AttandenceComponent } from './componets/attandence/attandence.component';
 import { FundayComponent } from './Componets/funday/funday.component';
+import { NadyResultComponent } from './Componets/nady-result/nady-result.component';
 
 const routes: Routes = [
   {path: 'signUp', component:SignUpComponent},
@@ -18,11 +19,12 @@ const routes: Routes = [
   {path: 'about',component:AboutComponent},
   {path: 'attendance',component:AttandenceComponent},
   {path: 'funday',component:FundayComponent},
+  {path: 'Nady',component:NadyResultComponent},
   {path: '',component:LandingComponent},
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes,  {useHash:true})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

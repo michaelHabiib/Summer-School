@@ -19,6 +19,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { AboutComponent } from './componets/about/about.component';
 import { AttandenceComponent } from './componets/attandence/attandence.component';
 import { FundayComponent } from './Componets/funday/funday.component';
+import { NadyResultComponent } from './Componets/nady-result/nady-result.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { FundayComponent } from './Componets/funday/funday.component';
     AboutComponent,
     AttandenceComponent,
     FundayComponent,
+    NadyResultComponent,
   ],
   imports: [
     BrowserModule,

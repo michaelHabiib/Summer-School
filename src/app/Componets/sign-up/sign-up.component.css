@@ -1,6 +1,9 @@
 form mat-form-field{
     width: 100%;
 }
+.container{
+    min-height: 100vh !important;
+}
 button{
     background-color: #28a745 !important;
 }

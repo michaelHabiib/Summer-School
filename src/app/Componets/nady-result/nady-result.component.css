@@ -1,0 +1,11 @@
+.not-avaliable {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    padding: 0.5rem;
+    border-radius: 9999px;
+    background-color: #ccc;
+  }
+.container{
+    min-height: 40vh !important;
+}

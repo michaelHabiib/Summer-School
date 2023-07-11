@@ -23,17 +23,17 @@ export interface FundayReservtion {
 export class FundayComponent implements OnInit {
   modal : any
   id! : string
+  message! : string
+  loading : Boolean = false
   constructor(private _ReservtionService : ReservtionService){}
   displayedColumns: string[] = ['position', 'name', 'code','color','checkbox'];
   dataSource = new MatTableDataSource<FundayReservtion>;
 
-  GetAllFundayReservtion(){
+  GetAllFundayReservtion(){ 
     this._ReservtionService.GetAllFundayReservtions().subscribe({
       next :  (result) =>{
-        console.log(result);
+        // console.log(result);
         this.dataSource.data = result
-
-        // this.data = result
       },
       error : (err) =>{
         console.log(err);
@@ -47,7 +47,7 @@ export class FundayComponent implements OnInit {
     }
     this._ReservtionService.UpdateCashReservtion(this.modal,this.id).subscribe({
       next : (result) =>{
-        console.log(result);
+        // console.log(result);
       },
       error : (err) =>{
         console.log(err);
@@ -55,11 +55,22 @@ export class FundayComponent implements OnInit {
     })
   }
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
+    const filterValue = (event.target as HTMLInputElement).value.trim();
     this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
+
+  downloadFundaySheet() {
+    this.loading = true
+    this._ReservtionService.downloadFundayReservation().subscribe(() => {
+      this.loading = false
+      this.message = 'File downloaded successfully.'
+    }, (error) => {
+      console.log(error);
+      alert('Error downloading file.');
+    })
   }
   ngOnInit(): void {
+    this.message = ''
     this.GetAllFundayReservtion()
-    
   }
 }

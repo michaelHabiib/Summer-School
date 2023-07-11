@@ -5,8 +5,8 @@
       <mat-list role="list">
         <button class="ms-5 btn" mat-button [matMenuTriggerFor]="att"><i class="fa-solid fa-arrow-right pe-2"></i>Attendance</button>
 
-        <button class="ms-5 d-block btn "  mat-button role="listitem" [routerLink]= "['/funday']" >Funday</button>
-        <button class="ms-5 d-block btn "  mat-button role="listitem">Item 3</button>
+        <button class="ms-5 d-block btn " (click)="drawer.toggle()"  mat-button role="listitem" [routerLink]= "['/funday']" >Funday</button>
+        <button class="ms-5 d-block btn "  mat-button role="listitem"  [routerLink]= "['/Nady']">Nady</button>
       </mat-list>
     </mat-drawer>
     <mat-toolbar>
@@ -17,12 +17,14 @@
     </mat-toolbar>
     <!-- <app-our-services></app-our-services> -->
     <router-outlet></router-outlet>  
+    <app-footer></app-footer>
   </mat-drawer-container>
 </mat-sidenav-container>
 
 <mat-menu class="ms-5 " #att="matMenu" yPosition="below" xPosition="after" >
-  <button mat-menu-item [routerLink]= "['/attendance']" (click)="passValue('bc')" [class.active]="activeClass === 'bc'">baby Class</button>
-  <button mat-menu-item  [routerLink]= "['/attendance']" (click)="passValue('kg1')"  [class.active]="activeClass === 'kg1'" >KG1</button>
-  <button mat-menu-item [routerLink]= "['/attendance']" (click)="passValue('kg2')"  [class.active]="activeClass === 'kg2'">KG2</button>
-  <button mat-menu-item [routerLink]= "['/attendance']" (click)="passValue('prim1')"  [class.active]="activeClass === 'prim1'">Prim1</button>
+  <button mat-menu-item (click)="passValue('all')" [routerLink]= "['/attendance']" >All Classes</button>
+  <button mat-menu-item (click)="passValue('bc')" [routerLink]= "['/attendance']" >baby Class</button>
+  <button mat-menu-item (click)="passValue('kg1')" [routerLink]= "['/attendance']"  >KG1</button>
+  <button mat-menu-item (click)="passValue('kg2')" [routerLink]= "['/attendance']" >KG2</button>
+  <button mat-menu-item (click)="passValue('prim1')" [routerLink]= "['/attendance']"  >Prim1</button>
 </mat-menu>

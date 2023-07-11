@@ -6,6 +6,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { ActivatedRoute } from '@angular/router';
+
+// import { saveAs } from 'file-saver';
 interface User {
   code: string;
   position: number;
@@ -13,13 +15,15 @@ interface User {
 }
 interface AttData {
   code :string,
-  ischecked : boolean
+  ischecked : boolean,
+  userID : string
 }
 
 @Component({
   selector: 'app-attandence',
   templateUrl: './attandence.component.html',
   styleUrls: ['./attandence.component.css'],
+
 })
 
 export class AttandenceComponent implements OnInit {
@@ -49,6 +53,10 @@ export class AttandenceComponent implements OnInit {
   isGeneralTableVisible : Boolean = true
   loading = false
   year!: any;
+  selectedDayToDownloadSheet! : any
+  message! : string
+  StartDateSelected! : any
+  EndDateSelected! : any
 
 
   constructor(private _ReservtionService :ReservtionService,
@@ -60,10 +68,10 @@ export class AttandenceComponent implements OnInit {
 
   // function to Get All Users
   GetAllUsers(){
-    console.log(this.year);
+    // console.log(this.year);
     this._ReservtionService.GetUsersByYear(this.year).subscribe({
       next : (result) =>{
-        console.log(result);
+        // console.log(result);
         this.users = result.users
       },
       error : (err) =>{
@@ -87,30 +95,32 @@ export class AttandenceComponent implements OnInit {
         // console.log(result);
         this.AttendanceDataGen = result
           this.dataSourceItemsGen = [];
-          this.users.forEach(user => {
-            const alreadyAddedd = this.dataSourceItemsGen.some(item => item.code === user.code);
-            if (alreadyAddedd) {
-              return;
-            }
-            const attt = this.AttendanceDataGen.find((a) => a.code === user.code);
-            if (attt) {
+          this.users.forEach(user =>{
+            const alreadyHaveAttendance = this.AttendanceDataGen.find((a) => a.code === user.code)
+            
+            if(alreadyHaveAttendance){
+              if(alreadyHaveAttendance.isChecked){
+                this.dataSourceItemsGen.push({
+                  code : user.code,
+                  name : user.name,
+                  Attedance : 'Yes'
+                })
+              }else{
+                this.dataSourceItemsGen.push({
+                  code : user.code,
+                  name : user.name,
+                  Attedance : 'No'
+                })
+              }
+            }else{
               this.dataSourceItemsGen.push({
-                code: user.code,
-                name: user.name,
-                isChecked: true,
-                Attedance : 'yes'
-              });
-            } else {
-              this.dataSourceItemsGen.push({
-                code: user.code,
-                name: user.name,
-                isChecked: false,
+                code : user.code,
+                name : user.name,
                 Attedance : 'No'
-              });
+              })
             }
-          });
+          })
           this.loading = false
-        // console.log(this.dataSourceItemsGen);
         this.dataSourceGen = new MatTableDataSource(this.dataSourceItemsGen);
         this.dataSourceGen.sort = this.sort;
       },
@@ -125,43 +135,41 @@ export class AttandenceComponent implements OnInit {
     this.isGeneralTableVisible = false
     this.selectedDate = event.target.value;
     this.AttDate = new Date(Date.UTC(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), this.selectedDate.getDate())).toISOString().slice(0, 10);
-    // console.log('Selected date:', this.AttDate);
     
     this.GetAllUsers()
-    // console.log(this.AttDate);
-    // console.log(this.year);
     
     this._ReservtionService.GetAttOfDay(this.AttDate,this.year).subscribe({
       next : (result) =>{
-        console.log(result);
         this.AttendanceData = result
-        if (this.AttendanceData.length === 0) {
-          this.dataSourceItems = this.users;
-        } else {
-          this.dataSourceItems = [];
-          this.users.forEach(user => {
-            const alreadyAdded = this.dataSourceItems.some(item => item.code === user.code);
-            if (alreadyAdded) {
-              return;
-            }
-            const att = this.AttendanceData.find((a) => a.code === user.code);
-            if (att) {
+        this.dataSourceItems = []
+        this.users.forEach(user => {
+          const attendanceOfUser = this.AttendanceData.find((a) => a.code === user.code)
+          if(attendanceOfUser){
+            if(attendanceOfUser.isChecked){
               this.dataSourceItems.push({
-                code: user.code,
-                name: user.name,
-                isChecked: true
-              });
-            } else {
+                code : user.code,
+                name : user.name,
+                isChecked : true,
+                userID : user._id 
+              })
+            }else{
               this.dataSourceItems.push({
-                code: user.code,
-                name: user.name,
-                isChecked: false
-              });
+                code : user.code,
+                name : user.name,
+                isChecked : false,
+                userID : user._id 
+              })
             }
-          });
-        }
+          }else{
+            this.dataSourceItems.push({
+              code : user.code,
+              name : user.name,
+              isChecked : false,
+              userID : user._id 
+            })
+          }
+        })
         this.loading = false
-        // console.log(this.dataSourceItems);
         this.dataSource = new MatTableDataSource(this.dataSourceItems);
         this.dataSource.sort = this.sort;
       },
@@ -183,7 +191,6 @@ export class AttandenceComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     if(this.dataSourceGen){
       this.dataSourceGen.filter = filterValue.trim().toLowerCase();
-
     }
   }
 
@@ -192,14 +199,42 @@ export class AttandenceComponent implements OnInit {
     this.modal = {
        code : data.code,
        AttDate : this.AttDate,
-       isChecked : true
+       isChecked : true,
+       kidClass : this.year,
+       userID : data.userID
     }
     this._ReservtionService.SaveAttendance(this.modal).subscribe({
       next : (result)=>{
       },
       error : (err) =>{
+        console.log(err);
       }
     })
+  }
+  SelectDate(event: MatDatepickerInputEvent<Date>){
+    this.selectedDayToDownloadSheet = event.target.value
+    this.selectedDayToDownloadSheet = new Date(Date.UTC(this.selectedDayToDownloadSheet.getFullYear(), this.selectedDayToDownloadSheet.getMonth(), this.selectedDayToDownloadSheet.getDate())).toISOString().slice(0, 10);
+  }
+  exportAttendance() {
+    this._ReservtionService.downloadAttendanceSheet(this.selectedDayToDownloadSheet,this.year).subscribe(() => {
+      this.loading = false
+      this.message = 'File downloaded successfully.'},
+      (error) => {
+        console.log(error);
+        alert('Error downloading file.');
+      })
+  }
+  StartDate(event: MatDatepickerInputEvent<Date>){
+    this.StartDateSelected = event.target.value
+    this.StartDateSelected = new Date(Date.UTC(this.StartDateSelected.getFullYear(), this.StartDateSelected.getMonth(), this.StartDateSelected.getDate())).toISOString().slice(0, 10);
+
+  }
+  EndDate(event: MatDatepickerInputEvent<Date>){
+    this.EndDateSelected = event.target.value
+    this.EndDateSelected = new Date(Date.UTC(this.EndDateSelected.getFullYear(), this.EndDateSelected.getMonth(), this.EndDateSelected.getDate())).toISOString().slice(0, 10);
+  }
+  exportAttendanceInRange(){
+    
   }
   ngOnInit() {
     this._ReservtionService.selectedValueChanged.subscribe(value => {
@@ -209,5 +244,21 @@ export class AttandenceComponent implements OnInit {
     });
   }
 
+}
+
+function trigger(arg0: string, arg1: any[]): any {
+  throw new Error('Function not implemented.');
+}
+
+function state(arg0: string, arg1: any): any {
+  throw new Error('Function not implemented.');
+}
+
+function style(arg0: { opacity: number; }): any {
+  throw new Error('Function not implemented.');
+}
+
+function animate(arg0: number): any {
+  throw new Error('Function not implemented.');
 }
 

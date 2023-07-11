@@ -49,23 +49,26 @@ export class SignInComponent {
       next : (result) => {
         this.loading = false
         this.router.navigate(['/services'])
+        // console.log(result);
+        
         this.token = result.token
         localStorage.setItem('token',this.token)
-        // console.log(localStorage.getItem('token'));
         const decodedToken = jwt_decode(this.token) as {id: string, code: string, name: string};
-        console.log(decodedToken);
+        // console.log(decodedToken);
         this.name = decodedToken.name
         this.code = decodedToken.code
         this.id =  decodedToken.id
         localStorage.setItem('name',this.name)
         localStorage.setItem('code',this.code)
         localStorage.setItem('userID',this.id)
-        this._SignupService.setIsRegisterd(true)
+        this._SignupService.setIsRegistered(true)
+        sessionStorage.setItem('name',this.name );
+        sessionStorage.setItem('code', this.code);
       },
       error : (err) => {
         console.log(err);
         this.message = err.error.message
-        console.log(this.message);
+        // console.log(this.message);
         this.loading = false
       }
     })

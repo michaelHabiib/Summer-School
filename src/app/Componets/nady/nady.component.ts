@@ -1,6 +1,7 @@
 import { Component, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ReservtionService } from 'src/app/services/reservtion.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-nady',
@@ -20,57 +21,59 @@ export class NadyComponent {
   });
 
   ReserveNady(codeValue: any,ColorValue: string,monthForm:string) {
-    this.loading = true
-    let modal = {
-      code : codeValue,
-      color : ColorValue,
-      duration : monthForm
-    }
-    // console.log(codeValue);
-    const token = localStorage.getItem('token')
-    this._ReservtionService.ReservNady(modal,token).subscribe({
-      next : (result) =>{
-        this.loading = false
-        console.log(result);
-        this.message = result.message
-        console.log(this.message);
-        codeValue = ''
-        this.NewResForNady.reset()
-      },
-      error : (err) =>{
-        console.log(err);
-        this.message = err.error.message
-        console.log(this.message);
-        this.loading = false
-        this.NewResForNady.reset()
+    if(localStorage.getItem('token')){
+      this.loading = true
+      let modal = {
+        code : codeValue,
+        color : ColorValue,
+        duration : monthForm
       }
-    })    
+      const token = localStorage.getItem('token')
+      this._ReservtionService.ReservNady(modal,token).subscribe({
+        next : (result) =>{
+          this.loading = false
+          this.message = result.message
+          codeValue = ''
+          this.NewResForNady.reset()
+        },
+        error : (err) =>{
+          console.log(err);
+          this.message = err.error.message
+          this.loading = false
+          this.NewResForNady.reset()
+        }
+      })    
+    }else{
+      Swal.fire('Please Login First ')
+    }
   }
   ReserveHoleNady() {
-    this.loading = true
-    let modal = {
-      code : this.NewResForNady.value.CodeForm,
-      color : this.NewResForNady.value.ColorGroup,
-      duration : 'full'
-    }
-    // console.log(modal);
-    
-    const token = localStorage.getItem('token')
-    this._ReservtionService.ReservNady(modal,token).subscribe({
-      next : (result) =>{
-        this.loading = false
-        console.log(result);
-        this.message = result.message
-        console.log(this.message);
-        this.NewResForNady.reset()
-      },
-      error : (err) =>{
-        // console.log(err);
-        this.message = err.error.message
-        // console.log(this.message);
-        this.loading = false
+    if(localStorage.getItem('token')){
+      this.loading = true
+      let modal = {
+        code : this.NewResForNady.value.CodeForm,
+        color : this.NewResForNady.value.ColorGroup,
+        duration : 'full'
       }
-    })    
+      // console.log(modal);
+      
+      const token = localStorage.getItem('token')
+      this._ReservtionService.ReservNady(modal,token).subscribe({
+        next : (result) =>{
+          this.loading = false
+          this.message = result.message
+          this.NewResForNady.reset()
+        },
+        error : (err) =>{
+          // console.log(err);
+          this.message = err.error.message
+          // console.log(this.message);
+          this.loading = false
+        }
+      })    
+    }else{
+      Swal.fire('Please Login First ')  
+    }
   }
 
   GetErrorPasswordMsg(){

@@ -2,23 +2,32 @@
     <div class="container-fluid">
         <div class="flex">
           <i class="fa-solid fa-child-reaching pe-2"></i>
-            <a class="navbar-brand text-center">Kids School</a>
+          <a class="navbar-brand text-center">Summer School</a>
         </div>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"  >
         <span class="navbar-toggler-icon"></span>
       </button>
+      
+      <div class="collapse navbar-collapse dropdown-menu ps-3" id="navbarNavAltMarkup" >
 
-      <div class="collapse navbar-collapse dropdown-menu ps-3" id="navbarNavAltMarkup">
-        <div class="navbar-nav ms-auto" [@fadeIn]>
-          <a class="nav-link active d-flex align-items-center" data-toggle="collapse" data-target=".navbar-collapse.show" (click)="closeNavbar()" routerLink="/" routerLinkActive="active"  aria-current="page">Home</a>
-          <a class="nav-link" routerLink="/about" data-toggle="collapse" data-target=".navbar-collapse.show" (click)="closeNavbar()" routerLinkActive="active">About us</a>
-          <a class="nav-link d-flex align-items-center" *ngIf="!isRegstired" [matMenuTriggerFor]="menu"  routerLinkActive="active"> Regstrtion <i class="fa-solid fa-arrow-right ps-2 arrow"></i></a>
-          <a class="nav-link d-flex align-items-center" *ngIf="isRegstired" routerLinkActive="active" (click)="LogOut()" > LogOut </a>
+
+        <div class="navbar-nav ms-auto" [@fadeIn] >
+          <a class="nav-link active ps-1" data-toggle="collapse" data-target=".navbar-collapse.show" routerLink="/" routerLinkActive="active"  aria-current="page" (click)="closeNavbar()">Home</a>
+          <a class="nav-link ps-1" routerLink="/about" data-toggle="collapse" data-target=".navbar-collapse.show" routerLinkActive="active" (click)="closeNavbar()">About us</a>
+          <a class="nav-link d-flex align-items-center" *ngIf="!(_SignupService.isRegistered$ | async)" [matMenuTriggerFor]="resgstrationMenu"  routerLinkActive="active"> Regstrtion <i class="fa-solid fa-arrow-right ps-2 arrow"></i></a>
+          <a class="nav-link text-start"  *ngIf="_SignupService.isRegistered$ | async" routerLinkActive="active" (click)="LogOut()" >Log out </a>
+          <!-- <a class="text-start nav-link " *ngIf="isRegstired">{{firstName}} {{code}}</a> -->
         </div>
       </div>
     </div>
   </nav>
-  <mat-menu #menu="matMenu">
+  <!-- <mat-menu #logOutMenu="matMenu" class="custom-menu">
+    <div class="biko text-white" >
+      {{totalName}}
+    </div>
+  </mat-menu> -->
+
+  <mat-menu #resgstrationMenu="matMenu">
     <button mat-menu-item routerLink="/signUp" data-toggle="collapse" data-target=".navbar-collapse.show" (click)="closeNavbar()">Sign Up</button>
     <button mat-menu-item routerLink="/signIn" data-toggle="collapse" data-target=".navbar-collapse.show" (click)="closeNavbar()">Sign In</button>
 </mat-menu>

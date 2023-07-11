@@ -36,3 +36,9 @@ mat-list-item {
   .btn:active .fa-arrow-right {
     transform: translateX(10px);
   }
+  /* app-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  } */

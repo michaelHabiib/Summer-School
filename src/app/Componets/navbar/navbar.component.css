@@ -56,3 +56,13 @@
   .navbar-brand{
     font-family: Pacifico;
   }
+  .logout-Menu{
+    cursor: pointer;
+  }
+  .custom-menu {
+    width: 200px;
+    background-color: #f5f5f5;
+  }
+  .biko{
+    background-color: #333;
+  }

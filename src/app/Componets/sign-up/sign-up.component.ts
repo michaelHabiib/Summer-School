@@ -17,7 +17,7 @@ export class SignUpComponent {
 
   constructor(public _SignupService : SignupService, private router: Router){}
   SignUpForm1 = new FormGroup({
-    NameForm: new FormControl('', [Validators.required]),
+    NameForm: new FormControl('', [Validators.required, this.nameValidator]),
     EmailForm: new FormControl('', [Validators.required, Validators.email]),
     passwordForm: new FormControl('', [Validators.required]),
     phoneForm: new FormControl('',[Validators.required, Validators.maxLength(11), Validators.minLength(11)]),
@@ -31,19 +31,31 @@ export class SignUpComponent {
     BirthdayDate : new FormControl('',[Validators.required]),
     yearForm : new FormControl('',[Validators.required]),
   })
+  nameValidator(control: any) {
+    if (!control || !control.value) {
+      return null; // Return null if the control is empty or null
+    }
+  
+    const names = control.value.split(' ');
+    if (names.length < 4) {
+      return { 'name': 'Please enter at least 4 names' }; // Return an error object if the number of names is less than 4
+    }
+  
+    return null; // Return null if the validation succeeds
+  }
   submitSignUp1(){
     if(this.SignUpForm1.status){
-      console.log(this.SignUpForm1);
+      // console.log(this.SignUpForm1);
     }
   }
   submitSignUp2(){
     if(this.SignUpForm2.status){
-      console.log(this.SignUpForm2);
+      // console.log(this.SignUpForm2);
     }
   }
   submitSignUp3(){
     if(this.SignUpForm3.status){
-      console.log(this.SignUpForm3);
+      // console.log(this.SignUpForm3);
     }
   }
   GetErrorNameMsg(){
@@ -113,7 +125,6 @@ export class SignUpComponent {
     }
   }
   SignUp(){
-    console.log('nsadj');
     this.loading = true
     
     let modal = {
@@ -127,20 +138,15 @@ export class SignUpComponent {
       Area : this.SignUpForm2.controls.Area.value,
       BirthdayDate : this.SignUpForm3.controls.BirthdayDate.value,
     }
-    console.log(modal);
     
     this._SignupService.SignUp(modal).subscribe({
       next : (result) =>{
         this.loading = false
         this.router.navigate(['/signIn'])
-        console.log(result);
-        console.log('7mda');
-        
       },
       error : (err) => {
         console.log(err.error);
         this.message = err.error.messgae
-        console.log(this.message);
         this.loading = false
         
       }

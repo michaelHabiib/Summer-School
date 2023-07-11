@@ -1,22 +1,22 @@
 
 <div class="container my-5">
-  <div class="row">
-    <h3 class="fs-3" [@cardAnimation]>Hello <span>{{splitFirstNameOfUser(name)}}</span> Your Code is <span>{{code}}</span></h3>
-  </div>
     <p class="fw-bold fs-2 text-center my-5">Explore Our Services</p>
+    <h2 *ngIf="_SignupService.isRegistered$ | async">Hello <span class="fw-bold" >{{splitFirstNameOfUser(name)}}</span> Your Code is  <span class="fw-bold" >{{code}}</span> </h2>
     <div class="row justify-content-center">
         <mat-card class="example-card my-3 col-lg-3 col-md-4 col-sm-6 col-xsm-12" [@cardAnimation] >
           <mat-card-header>
-            <img mat-card-avatar class="example-header-image ms-2"  src="../../../assets/download.jpg" alt="Custom Avatar Image">
+            <img mat-card-avatar class="example-header-image ms-2"  src="assets/bmdi_390o_161206.jpg" alt="Custom Avatar Image">
             <mat-card-title class="mt-2 ps-0">Funday</mat-card-title>
             <mat-card-subtitle class="mt-1 ps-0">Now in July</mat-card-subtitle>
           </mat-card-header>
-          <img class="main-img" mat-card-image src="../../../assets/ori_3736145_jvoab6y34d891sd2jnsltsaaqjj4mp5lp0mkn7rz_kids-fun-day-illustration.png" alt="Photo of a Shiba Inu">
+          <img class="main-img" mat-card-image src="assets/ori_3736145_jvoab6y34d891sd2jnsltsaaqjj4mp5lp0mkn7rz_kids-fun-day-illustration.png" alt="Photo of a Shiba Inu">
           <mat-card-content>
             <p class="fs-6 mb-2 main-para">
               We kindly request that you make a reservation for the upcoming funday event, so we can ensure that we have enough space and resources for all attendees. Thank you for your cooperation.
               <br>
-              <span class="fw-bold"> Date : 15-07-2023  05:00 pm till 10:00 pm</span>
+              <span class="fw-bold"> Date : 15-07-2023 <br> 05:00 pm till 10:00 pm</span>
+              <br>
+              <span class="fw-bold">Price : 45 $ </span>
             </p>
           </mat-card-content>
           <mat-card-actions class="mb-0">
@@ -44,15 +44,16 @@
         <mat-card class="example-card my-3 col-lg-3 col-md-4 col-sm-6 col-xsm-12" [@cardAnimation]>
           <mat-card-header>
             <div ></div>
-            <img mat-card-avatar class="example-header-image ms-2"  src="../../../assets/download.jpg" alt="Custom Avatar Image">
-            <mat-card-title class="mt-2 ps-0">Kid's Carnival</mat-card-title>
+            <img mat-card-avatar class="example-header-image ms-2"  src="assets/ori_3736145_jvoab6y34d891sd2jnsltsaaqjj4mp5lp0mkn7rz_kids-fun-day-illustration.png" alt="Custom Avatar Image">
+            <mat-card-title class="mt-2 ps-0">Summer Club</mat-card-title>
             <mat-card-subtitle class="mt-1 ps-0">During the Summer</mat-card-subtitle>
           </mat-card-header>
-          <img class="main-img" mat-card-image src="../../../assets/bmdi_390o_161206.jpg" alt="Photo of a Shiba Inu">
+          <img class="main-img" mat-card-image src="assets/bmdi_390o_161206.jpg" alt="Photo of a Shiba Inu">
           <mat-card-content>
             <p class="fs-6 mb-2 main-para">
               We kindly request that you make a reservation for the upcoming funday event, so we can ensure that we have enough space and resources for all attendees. Thank you for your cooperation.
             </p>
+            <span class="fw-bold fs-5">Price : 150 $ </span>
             <p class="fw-bold">You can check the available time slots from here.  </p>
             <p class="text-center">
               <mat-icon class="arrow-icon fs-2" [@bounce]="arrowState" (click)="toggleArrowState()">expand_more</mat-icon>

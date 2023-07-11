@@ -9,6 +9,7 @@
                   <mat-label>Name</mat-label>
                   <input matInput placeholder="Your name" formControlName="NameForm" required>
                   <mat-error class="fs-6 fw-bold" *ngIf="SignUpForm1.controls.NameForm.invalid">{{GetErrorNameMsg()}}</mat-error>
+                  <mat-error class="fs-6 fw-bold" *ngIf="SignUpForm1.controls.NameForm.hasError('name')">{{ SignUpForm1.controls.NameForm.getError('name') }}</mat-error>
                   <mat-icon matSuffix>badge</mat-icon>
                 </mat-form-field>
                 <mat-form-field appearance="outline">

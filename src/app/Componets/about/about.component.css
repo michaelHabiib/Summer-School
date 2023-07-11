@@ -5,12 +5,13 @@
     background-color: #0079bf;   
 }
 .section-1{
-    background-color: #deebff;
+    background-color: #0079bf;
+
 }
 .text{
     padding-top: 30px;
     padding-bottom: 30px;
-    width: 700px;
+    /* width: 700px; */
     margin-left: auto;
     margin-right: auto;
 }
@@ -25,7 +26,7 @@
     line-height: 1.4;
 }
 .section-2{
-    background-color: #0079bf;
+    background-color: #deebff;
     text-align: center;
 }
 .paragraph{

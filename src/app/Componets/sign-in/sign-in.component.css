@@ -8,6 +8,9 @@ form mat-form-field{
 .btn{
     background-color: #198754 !important;
 }
+.container{
+    min-height: 50vh !important;
+}
 .loading-layout{
     position: fixed;
     top: 0;

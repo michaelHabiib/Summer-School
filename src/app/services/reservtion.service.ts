@@ -1,17 +1,18 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Token } from '@angular/compiler';
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, tap } from 'rxjs';
 import { EventEmitter } from '@angular/core';
+import { saveAs } from 'file-saver';
 @Injectable({
   providedIn: 'root'
 })
 export class ReservtionService {
 
 
-  constructor(private _HttpClient :HttpClient ) { }
-  selectedValue : string = ''
-  selectedValueChanged = new Subject<string>();
+  constructor(private _HttpClient :HttpClient ) { 
+    this.selectedValue = localStorage.getItem('year') as string
+  }
   weeks = [
     {
       title: 'june',
@@ -91,10 +92,13 @@ export class ReservtionService {
       ]
     }
   ]
+  selectedValue!: string
+  selectedValueChanged =  new BehaviorSubject<string>(this.selectedValue);
   setSelectedValue(value: string) {
+    localStorage.setItem('year', value)
     this.selectedValue = value
     // console.log(selectedValue);
-    this.selectedValueChanged.next(value);    
+    this.selectedValueChanged.next(value);
   }
   ReservFunday(modal:any, token: any): Observable<any>{
     const httpOptions = {
@@ -105,6 +109,21 @@ export class ReservtionService {
     };
     // console.log(localStorage.getItem('token'));  
     return this._HttpClient.post('https://sunday-school-90tv.onrender.com/api/events/funday',modal,httpOptions)
+  }
+  GetAllFundayReservtions ():Observable<any> {
+    return this._HttpClient.get(`https://sunday-school-90tv.onrender.com/api/events/funday`)
+  }
+  UpdateCashReservtion (modal: any, id: any):Observable<any>{
+    return this._HttpClient.put(`https://sunday-school-90tv.onrender.com/api/events/funday/update/${id}`,modal)
+  }
+  downloadFundayReservation(): Observable<any> {
+    const url = 'https://sunday-school-90tv.onrender.com/api/events/funday/downloads';
+    return this._HttpClient.get(url, { responseType: 'blob' }).pipe(
+      tap((response: Blob) => {
+        const fileName = 'funday.xlsx';
+        saveAs(response, fileName);
+      })
+    );
   }
   ReservNady(modal:any, token: any): Observable<any>{
     const httpOptions = {
@@ -119,18 +138,19 @@ export class ReservtionService {
   GetUsersByYear(year: any): Observable<any>{
     return this._HttpClient.get(`https://sunday-school-90tv.onrender.com/api/user/year/${year}`)
   }
-  GetAttOfDay(Day:any, kidClass:any):Observable<any>{
-    return this._HttpClient.get(`https://sunday-school-90tv.onrender.com/api/Att/${Day}/${kidClass}`)
-  }
   SaveAttendance(modal:any):Observable<any>{
     return this._HttpClient.post(`https://sunday-school-90tv.onrender.com/api/Att`,modal)
   }
-
-  GetAllFundayReservtions ():Observable<any> {
-    return this._HttpClient.get(`https://sunday-school-90tv.onrender.com/api/events/funday`)
+  GetAttOfDay(Day:any, kidClass:any):Observable<any>{
+    return this._HttpClient.get(`https://sunday-school-90tv.onrender.com/api/Att/${Day}/${kidClass}`)
   }
-  UpdateCashReservtion (modal: any, id: any):Observable<any>{
-    return this._HttpClient.put(`https://sunday-school-90tv.onrender.com/api/events/funday/update/${id}`,modal)
+  downloadAttendanceSheet(Day: string, year: string): Observable<any> {
+    const url = `https://sunday-school-90tv.onrender.com/api/att/download/${Day}/${year}`;
+    return this._HttpClient.get(url, { responseType: 'blob' }).pipe(
+      tap((response: Blob) => {
+        const fileName = 'Attendance.xlsx';
+        saveAs(response, fileName);
+      })
+    );
   }
-
 }
