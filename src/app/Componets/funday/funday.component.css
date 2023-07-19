@@ -19,6 +19,7 @@
     animation-name: updown;
     animation-duration: 0.5s; 
     animation-iteration-count: infinite;
+    cursor: pointer;
   }
   
   @keyframes updown {

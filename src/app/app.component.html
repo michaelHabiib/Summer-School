@@ -4,9 +4,8 @@
       <p class="text-center fw-bold pt-4">Admin Dashboard</p>
       <mat-list role="list">
         <button class="ms-5 btn" mat-button [matMenuTriggerFor]="att"><i class="fa-solid fa-arrow-right pe-2"></i>Attendance</button>
-
-        <button class="ms-5 d-block btn " (click)="drawer.toggle()"  mat-button role="listitem" [routerLink]= "['/funday']" >Funday</button>
-        <button class="ms-5 d-block btn "  mat-button role="listitem"  [routerLink]= "['/Nady']">Nady</button>
+        <button class="ms-5 d-block btn" (click)="drawer.toggle()" mat-button role="listitem" [routerLink]= "['/funday']">Funday</button>
+        <button class="ms-5 d-block btn" (click)="drawer.toggle()" mat-button role="listitem"  [routerLink]= "['/Nady']">Nady</button>
       </mat-list>
     </mat-drawer>
     <mat-toolbar>
@@ -23,6 +22,7 @@
 
 <mat-menu class="ms-5 " #att="matMenu" yPosition="below" xPosition="after" >
   <button mat-menu-item (click)="passValue('all')" [routerLink]= "['/attendance']" >All Classes</button>
+  <button mat-menu-item (click)="passValue('user')" [routerLink]= "['/attendance']" >User</button>
   <button mat-menu-item (click)="passValue('bc')" [routerLink]= "['/attendance']" >baby Class</button>
   <button mat-menu-item (click)="passValue('kg1')" [routerLink]= "['/attendance']"  >KG1</button>
   <button mat-menu-item (click)="passValue('kg2')" [routerLink]= "['/attendance']" >KG2</button>

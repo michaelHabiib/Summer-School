@@ -58,3 +58,16 @@ h3{
       transform: translateY(0);
     }
   }
+  .btn-success{
+    margin-top: 0;
+    height: 71%;
+    padding: 10px 25px;
+  }
+  .row{
+    width: 100%;
+  }
+@media (max-width: 767px) {
+  .row p{
+    flex-direction: column;
+  }
+}

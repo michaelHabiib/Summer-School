@@ -20,6 +20,8 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatTableModule, MatTableDataSource} from '@angular/material/table';
 import { LayoutModule } from '@angular/cdk/layout';
 import {MatTreeModule} from '@angular/material/tree';
+import {MatRadioModule} from '@angular/material/radio';
+
 @NgModule({
   declarations: [],
   imports: [
@@ -43,7 +45,8 @@ import {MatTreeModule} from '@angular/material/tree';
     MatTabsModule,
     MatTableModule,
     LayoutModule,
-    MatTreeModule
+    MatTreeModule,
+    MatRadioModule
   ],exports : [
     MatButtonModule,
     MatToolbarModule,
@@ -64,7 +67,8 @@ import {MatTreeModule} from '@angular/material/tree';
     MatTabsModule,
     MatTableModule,
     LayoutModule,
-    MatTreeModule
+    MatTreeModule,
+    MatRadioModule
   ]
 })
 export class MatrialModule { }

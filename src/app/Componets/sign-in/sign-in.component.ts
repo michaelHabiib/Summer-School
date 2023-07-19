@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms'; 
 import { Router } from '@angular/router';
 import { SignupService } from 'src/app/services/signup.service';
@@ -18,6 +18,7 @@ export class SignInComponent {
   name : string = ''
   code: string = '';
   id : string = ''
+  @Output() loginEvent = new EventEmitter<string>();
 
 
   constructor(public _SignupService : SignupService, private router: Router){}
@@ -49,21 +50,18 @@ export class SignInComponent {
       next : (result) => {
         this.loading = false
         this.router.navigate(['/services'])
-        // console.log(result);
-        
         this.token = result.token
         localStorage.setItem('token',this.token)
         const decodedToken = jwt_decode(this.token) as {id: string, code: string, name: string};
-        // console.log(decodedToken);
         this.name = decodedToken.name
         this.code = decodedToken.code
         this.id =  decodedToken.id
         localStorage.setItem('name',this.name)
         localStorage.setItem('code',this.code)
         localStorage.setItem('userID',this.id)
-        this._SignupService.setIsRegistered(true)
         sessionStorage.setItem('name',this.name );
         sessionStorage.setItem('code', this.code);
+        this._SignupService.setIsRegistered(true)
       },
       error : (err) => {
         console.log(err);

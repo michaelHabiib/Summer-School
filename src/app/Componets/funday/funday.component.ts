@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { ReservtionService } from 'src/app/services/reservtion.service';
 export interface FundayReservtion {
@@ -20,19 +20,22 @@ export interface FundayReservtion {
 })
 
 
-export class FundayComponent implements OnInit {
+export class FundayComponent implements OnInit, AfterViewInit {
   modal : any
   id! : string
   message! : string
   loading : Boolean = false
   constructor(private _ReservtionService : ReservtionService){}
+  ngAfterViewInit(): void {
+    window.scrollTo(0, 0);
+  }
   displayedColumns: string[] = ['position', 'name', 'code','color','checkbox'];
   dataSource = new MatTableDataSource<FundayReservtion>;
 
   GetAllFundayReservtion(){ 
     this._ReservtionService.GetAllFundayReservtions().subscribe({
       next :  (result) =>{
-        // console.log(result);
+        this.loading = false
         this.dataSource.data = result
       },
       error : (err) =>{
@@ -71,6 +74,7 @@ export class FundayComponent implements OnInit {
   }
   ngOnInit(): void {
     this.message = ''
+    this.loading = true
     this.GetAllFundayReservtion()
   }
 }

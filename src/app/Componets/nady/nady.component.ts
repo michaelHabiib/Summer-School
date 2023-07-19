@@ -1,4 +1,4 @@
-import { Component, ElementRef } from '@angular/core';
+import { AfterViewInit, Component, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ReservtionService } from 'src/app/services/reservtion.service';
 import Swal from 'sweetalert2';
@@ -8,9 +8,12 @@ import Swal from 'sweetalert2';
   templateUrl: './nady.component.html',
   styleUrls: ['./nady.component.css']
 })
-export class NadyComponent {
+export class NadyComponent implements AfterViewInit {
 
   constructor(private elementRef: ElementRef, private _ReservtionService : ReservtionService ){}
+  ngAfterViewInit(): void {
+    window.scrollTo(0, 0);
+  }
   loading = false;
   message : String | undefined 
   weeks = this._ReservtionService.weeks
@@ -26,7 +29,8 @@ export class NadyComponent {
       let modal = {
         code : codeValue,
         color : ColorValue,
-        duration : monthForm
+        duration : monthForm,
+        userID : localStorage.getItem('userID')
       }
       const token = localStorage.getItem('token')
       this._ReservtionService.ReservNady(modal,token).subscribe({
@@ -53,7 +57,8 @@ export class NadyComponent {
       let modal = {
         code : this.NewResForNady.value.CodeForm,
         color : this.NewResForNady.value.ColorGroup,
-        duration : 'full'
+        duration : 'full',
+        userID : localStorage.getItem('userID')
       }
       // console.log(modal);
       

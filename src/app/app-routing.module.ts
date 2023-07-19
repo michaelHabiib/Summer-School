@@ -9,17 +9,18 @@ import { AboutComponent } from './componets/about/about.component';
 import { AttandenceComponent } from './componets/attandence/attandence.component';
 import { FundayComponent } from './Componets/funday/funday.component';
 import { NadyResultComponent } from './Componets/nady-result/nady-result.component';
+import { ContactUsComponent } from './Componets/contact-us/contact-us.component';
 
 const routes: Routes = [
   {path: 'signUp', component:SignUpComponent},
   {path: 'signIn',component:SignInComponent},
-  // {path: '',component:OurServicesComponent},
   {path: 'services',component:OurServicesComponent},
   {path: 'nady',component:NadyComponent},
   {path: 'about',component:AboutComponent},
   {path: 'attendance',component:AttandenceComponent},
   {path: 'funday',component:FundayComponent},
   {path: 'Nady',component:NadyResultComponent},
+  {path: 'contact',component:ContactUsComponent},
   {path: '',component:LandingComponent},
 ];
 

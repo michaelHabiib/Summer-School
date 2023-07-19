@@ -1,0 +1,65 @@
+<h2 class="fs-1 text-center mt-2 fw-bold my-2">Contact US</h2>
+<div class="container d-flex justify-content-evenly ">
+    <div class="contact me-3">
+        <h4 class="fw-bold fs-5" >CONTACT INFO </h4>
+        <p><i style="color:#0f385a ;" class="fa-solid fa-location-pin fs-5 pe-2"></i><span class="fs-6" >Toman Bai ST, Cairo, Egypt</span></p>
+        <p><i style="color:#0f385a ;" class="fa-solid fa-phone fs-5 pe-2"></i><span class="fs-6" >+201222353187</span></p>
+        <ul class="d-flex justify-content-center align-items-center ms-0 ps-0">
+            <li class="me-2" ><a href=""><i class="fa-brands fa-facebook fs-3"></i></a></li>
+            <li class="me-2" ><a href=""><i class="fa-brands fa-linkedin fs-3"></i></a></li>
+            <li class="me-2" ><a href=""><i class="fa-brands fa-github fs-3"></i></a></li>
+            <li class="me-2" ><a href=""><i class="fa-solid fa-envelope fs-3"></i></a></li>
+        </ul>
+    </div>
+    <div class="form flex-grow-1">
+        <form [formGroup]="ContactForm" class="my-2" (ngSubmit)="onSubmit()">
+            <h3 class="fw-bold pb-0 mb-0 fw-5" >Title</h3>
+            <hr class="mt-0 pt-0" >
+            <mat-radio-group formControlName="gender" > 
+              <mat-radio-button value="Mr">Male.</mat-radio-button>
+              <br>
+              <mat-radio-button value="Ms">Female.</mat-radio-button>
+              <mat-error class="fs-6 fw-bold" *ngIf="ContactForm.controls.gender.invalid">{{GetErrorGenderMessage()}}</mat-error>
+
+            </mat-radio-group>
+            <br>
+            <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>First Name</mat-label>
+                <input type="text" matInput  
+                       placeholder="Ex. Michael" formControlName="firstName">
+                <mat-error class="fs-6 fw-bold" *ngIf="ContactForm.controls.firstName.invalid">{{GetFirstNameMsg()}}</mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Last Name</mat-label>
+                <input type="text" matInput  
+                       placeholder="Ex. Habib" formControlName="lastName">
+                <mat-error class="fs-6 fw-bold" *ngIf="ContactForm.controls.lastName.invalid">{{GetLastNameMsg()}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Email</mat-label>
+                <input type="email" matInput 
+                       placeholder="Ex. michael@gmail.com" formControlName="email">
+                <mat-error class="fs-6 fw-bold" *ngIf="ContactForm.controls.email.invalid">{{GetErrorEmailMsg()}}</mat-error>
+              </mat-form-field>
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Phone</mat-label>
+                <input type="number" matInput  
+                       placeholder="Ex. +20123456789"  formControlName="phone">
+                <mat-error class="fs-6 fw-bold" *ngIf="ContactForm.controls.phone.invalid">{{GetPhoneMsg()}}</mat-error>
+            </mat-form-field>
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Topic</mat-label>
+                <input type="text" matInput  
+                       placeholder="Ex. Request For Info" formControlName="topic">
+                <mat-error class="fs-6 fw-bold" *ngIf="ContactForm.controls.topic.invalid">{{GetTopicMsg()}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Message</mat-label>
+                <textarea matInput placeholder="Ex. It makes me feel..." formControlName="message"></textarea>
+                <mat-error class="fs-6 fw-bold" *ngIf="ContactForm.controls.message.invalid">{{GetMessageMsg()}}</mat-error>
+              </mat-form-field>
+              <button  [disabled]="!ContactForm.valid" class="btn btn-success" >Submit</button>
+        </form>
+    </div>
+</div>

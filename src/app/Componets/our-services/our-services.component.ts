@@ -23,8 +23,17 @@ trigger('cardAnimation', [
 ]),
 trigger('bounce', [
   state('up', style({ transform: 'translateY(0)' })),
-  state('down', style({ transform: 'translateY(5px)' })),
-  transition('up <=> down', animate('100ms ease-out')),
+  state('down', style({ transform: 'translateY(20px)' })),
+  transition('up <=> down', animate('200ms ease-out')),
+]),
+trigger('fadeInOut', [
+  transition(':enter', [
+    style({ opacity: 0 }),
+    animate('1000ms ease-in-out', style({ opacity: 1 }))
+  ]),
+  transition(':leave', [
+    animate('1000ms ease-in-out', style({ opacity: 0 }))
+  ])
 ])
   ]
 })
@@ -79,10 +88,6 @@ export class OurServicesComponent implements OnInit {
       Swal.fire('Please Login First ')
     }
   }
-  splitFirstNameOfUser(name:string){
-    const totalName = name.split(' ')
-    return totalName[0]
-  }
 
   ngOnInit() {
     setInterval(() => {
@@ -90,10 +95,7 @@ export class OurServicesComponent implements OnInit {
     }, 1000);
     this.name = localStorage.getItem('name')
     this.code = localStorage.getItem('code')
-    // this._SignupService.isRegisteredChanged.subscribe((value: boolean) => {
-    //   this.isRegistered = value;
-    //   console.log(this.isRegistered);
-    // });
+
   }
   
 }

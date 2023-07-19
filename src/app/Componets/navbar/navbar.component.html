@@ -14,20 +14,12 @@
         <div class="navbar-nav ms-auto" [@fadeIn] >
           <a class="nav-link active ps-1" data-toggle="collapse" data-target=".navbar-collapse.show" routerLink="/" routerLinkActive="active"  aria-current="page" (click)="closeNavbar()">Home</a>
           <a class="nav-link ps-1" routerLink="/about" data-toggle="collapse" data-target=".navbar-collapse.show" routerLinkActive="active" (click)="closeNavbar()">About us</a>
-          <a class="nav-link d-flex align-items-center" *ngIf="!(_SignupService.isRegistered$ | async)" [matMenuTriggerFor]="resgstrationMenu"  routerLinkActive="active"> Regstrtion <i class="fa-solid fa-arrow-right ps-2 arrow"></i></a>
-          <a class="nav-link text-start"  *ngIf="_SignupService.isRegistered$ | async" routerLinkActive="active" (click)="LogOut()" >Log out </a>
-          <!-- <a class="text-start nav-link " *ngIf="isRegstired">{{firstName}} {{code}}</a> -->
+          <a class="nav-link ps-1" routerLink="/contact"  data-toggle="collapse" data-target=".navbar-collapse.show" routerLinkActive="active" (click)="closeNavbar()">Contact us</a>
+          <a class="nav-link d-flex align-items-center" *ngIf="!(_SignupService.isRegistered$ | async)"  routerLinkActive="active" routerLink="/signUp"> Sign Up <i class="fa-solid fa-arrow-right ps-2 arrow"></i></a>
+          <a class="nav-link d-flex align-items-center" *ngIf="!(_SignupService.isRegistered$ | async)"  routerLinkActive="active" routerLink="/signIn"> Sign In <i class="fa-solid fa-arrow-right ps-2 arrow"></i></a>
+          <a class="nav-link text-start"  *ngIf="_SignupService.isRegistered$ | async" routerLinkActive="active" (click)="LogOut()" (click)="closeNavbar()">Log out </a>
+          <a class="text-start nav-link " *ngIf="_SignupService.isRegistered$ | async" >{{splitFirstNameOfUser(username).totalName}} {{splitFirstNameOfUser(username).code}}</a>
         </div>
       </div>
     </div>
   </nav>
-  <!-- <mat-menu #logOutMenu="matMenu" class="custom-menu">
-    <div class="biko text-white" >
-      {{totalName}}
-    </div>
-  </mat-menu> -->
-
-  <mat-menu #resgstrationMenu="matMenu">
-    <button mat-menu-item routerLink="/signUp" data-toggle="collapse" data-target=".navbar-collapse.show" (click)="closeNavbar()">Sign Up</button>
-    <button mat-menu-item routerLink="/signIn" data-toggle="collapse" data-target=".navbar-collapse.show" (click)="closeNavbar()">Sign In</button>
-</mat-menu>

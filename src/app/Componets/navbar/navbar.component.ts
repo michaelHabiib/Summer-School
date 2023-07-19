@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { Router, NavigationEnd } from '@angular/router';
 import { SignupService } from 'src/app/services/signup.service';
@@ -31,13 +31,14 @@ export class NavbarComponent implements OnInit  {
   totalName!: any 
   firstName!: string
   code! : any
+  username! : any
   width!: any
   @ViewChild('navbar', { static: true })
   navbar!: ElementRef;
-  constructor(private router: Router, public _SignupService : SignupService,private cdr: ChangeDetectorRef){
-
+  constructor(private router: Router,
+     public _SignupService : SignupService,
+     private cdr: ChangeDetectorRef){
   } 
-
   toggleLinks() {
     this.showLinks = !this.showLinks;
   }
@@ -53,26 +54,16 @@ export class NavbarComponent implements OnInit  {
       this.width =  false
     }
   }
-  splitFirstNameOfUser(){
-     this.totalName =  localStorage.getItem('name')
-      this.totalName = this.totalName.split(' ')
+  splitFirstNameOfUser(totalName : any){
+     totalName = localStorage.getItem('name')
+      totalName = totalName.split(' ')
       return {
-       firstName: this.totalName[0],
-       code: localStorage.getItem('code')
+        totalName : totalName[0],
+        code : localStorage.getItem('code')
       }
-      
   }
-  // splitFirstNameOfUser() {
-  //   this.totalName = sessionStorage.getItem('name');
-  //   this.totalName = this.totalName.split(' ');
-  //   return {
-  //     firstName: this.totalName[0],
-  //     code: sessionStorage.getItem('code')
-  //   };
-  // }
+
   LogOut(){
-    // this.isRegstired =  false
-    // this._SignupService.setIsRegisterd(false)
     this._SignupService.setIsRegistered(false)
     localStorage.removeItem('token')
     localStorage.removeItem('code')
@@ -81,12 +72,12 @@ export class NavbarComponent implements OnInit  {
     sessionStorage.removeItem('code');
     this.router.navigate(['signIn'])
   }
-  simplefun(){
-    const result = this.splitFirstNameOfUser();
-    this.firstName = result.firstName;
-    this.code = result.code;
-    this.cdr.detectChanges();
-  }
+  // simplefun(){
+  //   const result = this.splitFirstNameOfUser();
+  //   this.firstName = result.firstName;
+  //   this.code = result.code;
+  //   this.cdr.detectChanges();
+  // }
   ngOnInit() {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -95,10 +86,10 @@ export class NavbarComponent implements OnInit  {
     });
     this._SignupService.isRegisteredChanged.subscribe((value: boolean) => {
       this.isRegstired = value
-      // console.log(this.isRegstired);
+      console.log(this.isRegstired);
+      
     })
-
-
-    // console.log(result);  
+    this.username = localStorage.getItem('name')
+    this.code = localStorage.getItem('code')
   }
 }

@@ -20,6 +20,7 @@ import { AboutComponent } from './componets/about/about.component';
 import { AttandenceComponent } from './componets/attandence/attandence.component';
 import { FundayComponent } from './Componets/funday/funday.component';
 import { NadyResultComponent } from './Componets/nady-result/nady-result.component';
+import { ContactUsComponent } from './Componets/contact-us/contact-us.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { NadyResultComponent } from './Componets/nady-result/nady-result.compone
     AttandenceComponent,
     FundayComponent,
     NadyResultComponent,
+    ContactUsComponent,
   ],
   imports: [
     BrowserModule,

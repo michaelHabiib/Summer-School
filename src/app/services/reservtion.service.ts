@@ -153,4 +153,25 @@ export class ReservtionService {
       })
     );
   }
+  GetAttendanceOfUser(code: any):Observable<any>{
+    return this._HttpClient.get(`https://sunday-school-90tv.onrender.com/api/user/att/${code}`)
+  }
+  updateCashReservtionNady(code: string, duration:string):Observable<any>{
+    return this._HttpClient.get(`https://sunday-school-90tv.onrender.com/api/events/nady/${code}/${duration}`)
+  }
+  GetAllNadyReservtion():Observable<any>{
+    return this._HttpClient.get(`https://sunday-school-90tv.onrender.com/api/events/nady/res`)
+  }
+  downloadnadyReservtionExcelSheet(): Observable<any> {
+    const url = 'https://sunday-school-90tv.onrender.com/api/events/nady/downloads';
+    return this._HttpClient.get(url, { responseType: 'blob' }).pipe(
+      tap((response: Blob) => {
+        const fileName = 'Summer Club.xlsx';
+        saveAs(response, fileName);
+      })
+    );
+  }
+  SendEmailToUser(modal: any):Observable<any>{
+    return this._HttpClient.post(`https://sunday-school-90tv.onrender.com/api/mail/form`,modal)
+  }
 }

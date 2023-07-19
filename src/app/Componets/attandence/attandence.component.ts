@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit,ViewChild } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import { ReservtionService } from 'src/app/services/reservtion.service';
 import { MatSort } from '@angular/material/sort';
@@ -26,7 +26,7 @@ interface AttData {
 
 })
 
-export class AttandenceComponent implements OnInit {
+export class AttandenceComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort = new MatSort();
   @ViewChild(MatDatepicker, {static: false}) datepicker!: MatDatepicker<Date>; 
   users : any[] = []
@@ -57,10 +57,16 @@ export class AttandenceComponent implements OnInit {
   message! : string
   StartDateSelected! : any
   EndDateSelected! : any
-
+  userCode : any
+  userData : any
+  Attendance : any
+  AttendanceTrue : any
 
   constructor(private _ReservtionService :ReservtionService,
   private route : ActivatedRoute){}
+  ngAfterViewInit(): void {
+    window.scrollTo(0, 0);
+  }
   // this form to listen to checkbox value
   CheckForm = new FormGroup({
     check: new FormControl('', [Validators.required]),
@@ -178,7 +184,6 @@ export class AttandenceComponent implements OnInit {
       }
     })
   }
-
   // this filter to filter datain the table
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -205,6 +210,8 @@ export class AttandenceComponent implements OnInit {
     }
     this._ReservtionService.SaveAttendance(this.modal).subscribe({
       next : (result)=>{
+        console.log(result);
+        
       },
       error : (err) =>{
         console.log(err);
@@ -224,16 +231,43 @@ export class AttandenceComponent implements OnInit {
         alert('Error downloading file.');
       })
   }
-  StartDate(event: MatDatepickerInputEvent<Date>){
-    this.StartDateSelected = event.target.value
-    this.StartDateSelected = new Date(Date.UTC(this.StartDateSelected.getFullYear(), this.StartDateSelected.getMonth(), this.StartDateSelected.getDate())).toISOString().slice(0, 10);
-
+  chooseClass(year :any){
+    if(year === 'all'){
+      return 'All Classes'
+    }else if(year === 'user'){
+      return 'Get Attendance Of Spesfic User'
+    }else if (year === 'bc'){
+      return 'Baby Class Attendance'
+    }else if (year === 'kg1'){
+      return 'KG1 Class Attendance'
+    }else if (year === 'kg2'){
+      return 'KG2 Class Attendance'
+    }else if (year === 'prim1'){
+      return 'Prim 1 Class Attendance'
+    }else{
+      return ''
+    }
   }
-  EndDate(event: MatDatepickerInputEvent<Date>){
-    this.EndDateSelected = event.target.value
-    this.EndDateSelected = new Date(Date.UTC(this.EndDateSelected.getFullYear(), this.EndDateSelected.getMonth(), this.EndDateSelected.getDate())).toISOString().slice(0, 10);
-  }
-  exportAttendanceInRange(){
+  onSubmit(event : any){
+    this.loading = true
+    const userCode = event.target.querySelector('input').value;
+    console.log(userCode); 
+    this._ReservtionService.GetAttendanceOfUser(userCode).subscribe({
+      next : (result) =>{
+        this.loading = false
+        this.AttendanceTrue = []
+        this.userData = result.user
+        this.Attendance = result.AttendanceData
+        for(const att of result.AttendanceData){
+          if(att.isChecked){
+            this.AttendanceTrue.push(att)
+          }
+        }        
+      },
+      error : (err) =>{
+        console.log(err);
+      }
+    })
     
   }
   ngOnInit() {

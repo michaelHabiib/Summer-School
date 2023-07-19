@@ -1,0 +1,20 @@
+h2.fs-1, h4{
+    color:#0f385a;
+}
+mat-form-field{
+    width: 100%;
+}
+a{
+    display: block;
+    color: #0f385a !important;
+    border: 2px solid #0f385a ;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    padding: 10px !important;
+}
+@media (max-width:767px) {
+    .container{
+        flex-direction: column;
+    }
+}
