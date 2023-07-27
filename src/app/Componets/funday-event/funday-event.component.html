@@ -1,0 +1,60 @@
+<h2 class="text-center" >Add Funday Event</h2>
+<form class="my-2" [formGroup]="AddNewEvent">
+    <div class="container">
+        <div class="d-flex">
+            <mat-form-field appearance="outline" class="mx-1" >
+                <mat-label>Event Name</mat-label>
+                <input matInput placeholder="EX. Augast Funday" formControlName="name"  name="eventName" required >
+                <mat-error class="fw-bold" *ngIf="AddNewEvent.controls.name.invalid"> Please enter a value.</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="mx-1" >
+                <mat-label>Event Price</mat-label>
+                <input matInput placeholder="EX. 150" formControlName="price" type="number" min="0"  name="eventPrice" required>
+                <mat-error class="fw-bold"*ngIf="AddNewEvent.controls.price.invalid">Please enter a Valid value.</mat-error>
+            </mat-form-field>
+        </div>
+        <mat-form-field appearance="outline" class="mx-1" >
+            <mat-label>Event Details</mat-label>
+            <textarea required name="eventDetails" formControlName="details" matInput placeholder="EX. Summer CLub in Summer 2023 for Kids with Barcode holder starts from the first ................ "></textarea>
+            <mat-error class="fw-bold" *ngIf="AddNewEvent.controls.details.invalid">Please enter a value.</mat-error>
+        </mat-form-field>
+        <section class="example-section" >
+            <h4>Select your Avaliable Groups:</h4>
+            <p><mat-checkbox formControlName="red">red</mat-checkbox></p>
+            <p><mat-checkbox formControlName="black">black</mat-checkbox></p>
+            <p><mat-checkbox formControlName="purble">purble</mat-checkbox></p>
+            <p><mat-checkbox formControlName="yellow">yellow</mat-checkbox></p>
+            <p><mat-checkbox formControlName="green">green</mat-checkbox></p>
+            <p><mat-checkbox formControlName="brown" >brown</mat-checkbox></p>
+            <p><mat-checkbox formControlName="rose" >rose</mat-checkbox></p>
+            <p><mat-checkbox formControlName="gray">gray</mat-checkbox></p>
+            <p><mat-checkbox formControlName="blue">blue</mat-checkbox></p>
+          </section>
+            <div class="d-flex justify-content-between" >
+                <button class="btn btn-success my-2 " (click)="addDate()">Add Date</button>
+            </div>
+          <div formArrayName="dates">
+            <div *ngFor="let dateForm of dates.controls; let i=index" >
+                <div [formGroupName]="i" class="d-flex justify-content-center">
+                    <mat-form-field appearance="outline" class="mx-1 mb-1 pb-0" >
+                        <mat-label>Date:</mat-label>
+                        <input matInput placeholder="EX. Satrday" type="text" formControlName="date"  required  >
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="mx-1 mb-1 pb-0" >
+                        <mat-label>Time:</mat-label>
+                        <input matInput placeholder="EX. 5 pm" type="text" formControlName="time" required>
+                    </mat-form-field >
+                    <div (click)="removeDate(i)" class="d-flex">
+                        <i  class="fa-solid fa-trash d-flex mt-3"></i>
+                    </div>
+                    
+                </div>
+            </div>
+            <button class="btn btn-danger d-block my-2" [disabled]="!AddNewEvent.valid" (click) = "createEvent()" >Create Event</button>
+            <p class="fw-bold" >{{message}}</p>  
+        </div>
+    </div>
+</form>
+<div class="loading-layout" *ngIf= "loading">
+    <mat-spinner class="loading"></mat-spinner>
+</div>

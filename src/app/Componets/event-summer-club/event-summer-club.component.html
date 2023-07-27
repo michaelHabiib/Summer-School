@@ -1,0 +1,78 @@
+<h2 class="text-center" >Add Summer Club Event</h2>
+<form *ngIf="addNewEvent" class="my-2" [formGroup]="addNewEvent">
+    <div class="container">
+        <div class="d-flex">
+            <mat-form-field appearance="outline" class="mx-1" >
+                <mat-label>Event Name</mat-label>
+                <input matInput placeholder="EX. Augast Funday" formControlName="eventName" required >
+                <mat-error class="fw-bold" *ngIf="addNewEvent.controls['eventName'].invalid">Please enter a value.</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="mx-1" >
+                <mat-label>Event Price</mat-label>
+                <input matInput placeholder="EX. 150" type="number" min="0"  formControlName="eventPrice" required>
+                <mat-error class="fw-bold" *ngIf="addNewEvent.controls['eventPrice'].invalid">Please enter a Valid value.</mat-error>
+            </mat-form-field>
+        </div>
+        <mat-form-field appearance="outline" class="mx-1" >
+            <mat-label>Event Details</mat-label>
+            <textarea required matInput  formControlName="eventDetails" placeholder="EX. Summer CLub in Summer 2023 for Kids with Barcode holder starts from the first ................ "></textarea>
+            <mat-error class="fw-bold" *ngIf="addNewEvent.controls['eventDetails'].invalid">Please enter a value.</mat-error>
+        </mat-form-field>
+            <button class="btn btn-success my-2" (click)="addColor()">Add Group <i class="fa-solid fa-plus"></i></button>
+            <div>
+                <div formGroupName="gg" >
+                    <div formArrayName="availableColors" >
+                        <div *ngFor="let colorGroup of availableColors().controls; let i = index">
+                            <div [formGroupName]="i">
+                                <div class="d-flex">
+                                    <mat-form-field appearance="outline" class="mx-1 selectInput" >
+                                        <mat-label>Group Color:</mat-label>
+                                        <mat-select required placeholder=" EX. red " formControlName="color" >
+                                            <mat-option value="red">red</mat-option>
+                                            <mat-option value="blue">blue</mat-option>
+                                            <mat-option value="black">black</mat-option>
+                                            <mat-option value="yellow">yellow</mat-option>
+                                            <mat-option value="purble">purble</mat-option>
+                                            <mat-option value="rose">rose</mat-option>
+                                            <mat-option value="brown">brown</mat-option>
+                                            <mat-option value="white">white</mat-option>
+                                        </mat-select>
+                                        <!-- <mat-error class="fw-bold" *ngIf="addNewEvent.controls['color'].invalid">Please enter a value.</mat-error> -->
+                                    </mat-form-field>
+                                    <div  (click)="removeColor(i)" >
+                                        <i class="fa-solid fa-trash mt-3" *ngIf="show"></i>
+                                    </div> 
+                                </div>
+                                <h3 class="fw-bold" >Avaliable Dates in this Group :</h3>
+                                <div formArrayName="dateTime">
+                                    <div *ngFor="let dateTime of dateTime(i).controls; let j=index"   >
+                                        <div [formGroupName]="j" class="d-flex" >
+                                            <mat-form-field appearance="outline" class="mx-1 mb-1 pb-0">
+                                                <mat-label>Date:</mat-label>
+                                                <input matInput placeholder="EX. Satrday" formControlName="date" type="text" required >
+                                            </mat-form-field>
+                                            <mat-form-field appearance="outline" class="mx-1 mb-1 pb-0">
+                                                <mat-label>Time:</mat-label>
+                                                <input matInput placeholder="EX. 5 pm" type="text" required formControlName="time" >
+                                            </mat-form-field >
+                                            <div (click)="removeDateTime(i,j)" >
+                                                <i class="fa-solid fa-trash mt-3" *ngIf="show"></i>
+                                            </div>                     
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <button class="btn btn-success my-2 " (click)="addDateTime(i)">Add Date and Time</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+         <button class="btn btn-success mt-2 d-block" [disabled]="!addNewEvent.valid" (click)="createEvent()" >Create Event</button>
+         <p class="fw-bold" >{{message}}</p>   
+    </div>
+</form>
+<div class="loading-layout" *ngIf= "loading">
+    <mat-spinner class="loading"></mat-spinner>
+  </div>

@@ -1,66 +1,46 @@
 
 <div class="container my-5" [@fadeInOut]>
-    <p class="fw-bold fs-2 text-center my-5">Explore Our Services</p>
-    <!-- <h2 *ngIf="_SignupService.isRegistered$ | async">Hello <span class="fw-bold" >{{splitFirstNameOfUser(name)}}</span> Your Code is  <span class="fw-bold" >{{code}}</span> </h2> -->
-    <div class="row justify-content-center">
-        <mat-card class="example-card my-3 col-lg-3 col-md-4 col-sm-6 col-xsm-12" [@cardAnimation] >
+    <p class="fw-bold fs-2 text-center my-5">Explore Our Events</p>
+      <div class="row justify-content-center"  >
+        <mat-card class="example-card my-3 col-lg-3 col-md-4 col-sm-6 col-xsm-12" [@cardAnimation]  *ngFor="let event of SummerEvents; let i = index "  >
           <mat-card-header>
             <img mat-card-avatar class="example-header-image ms-2"  src="assets/summer school clip art.jpg" alt="Custom Avatar Image">
-            <mat-card-title class="mt-2 ps-0">Funday</mat-card-title>
-            <mat-card-subtitle class="mt-1 ps-0">Now in August</mat-card-subtitle>
+            <mat-card-title class="mt-2 ps-0">{{event.name}}</mat-card-title>
+            <mat-card-subtitle class="mt-1 ps-0" *ngIf="event.color.length == 0" >Duaring All the Summer</mat-card-subtitle>
+            <mat-card-subtitle class="mt-1 ps-0" *ngIf="event.color.length > 0" >Now avaliable</mat-card-subtitle>
           </mat-card-header>
-          <img class="main-img" mat-card-image src="assets/ori_3736145_jvoab6y34d891sd2jnsltsaaqjj4mp5lp0mkn7rz_kids-fun-day-illustration.png" alt="Photo of a Shiba Inu">
+          <img *ngIf="event.color.length > 0" class="main-img" mat-card-image src="assets/ori_3736145_jvoab6y34d891sd2jnsltsaaqjj4mp5lp0mkn7rz_kids-fun-day-illustration.png" alt="Photo of a Shiba Inu">
+          <img *ngIf="event.color.length == 0" class="main-img" mat-card-image src="assets/bmdi_390o_161206.jpg" alt="Photo of a Shiba Inu">
           <mat-card-content>
             <p class="fs-6 mb-2 main-para">
-              We kindly request that you make a reservation for the upcoming funday event, so we can ensure that we have enough space and resources for all attendees. Thank you for your cooperation.
-              <br>
-              <span class="fw-bold"> Date : 15-08-2023 <br> 05:00 pm till 10:00 pm</span>
-              <br>
-              <span class="fw-bold">Price : 45 $ </span>
+              {{event.details}}
             </p>
+            <br>
+            <span class="fw-bold fs-6">{{event.price}} EGP</span>
           </mat-card-content>
           <mat-card-actions class="mb-0">
-            <form action="" class="mb-0" [formGroup]="NewResForFunday" >
-              <mat-form-field class="px-1" appearance="outline">
-                <mat-label>Your code</mat-label>
-                <input matInput formControlName="CodeForm" type="number" min="1">
-              </mat-form-field>
-              <mat-form-field appearance="outline">
-                <mat-label>Select</mat-label>
-                <mat-select formControlName="ColorGroup">
-                  <mat-option value="red">red</mat-option>
-                  <mat-option value="blue">blue</mat-option>
-                  <mat-option value="black">black</mat-option>
-                  <mat-option value="brown">brown</mat-option>
-                  <mat-option value="Green">Green</mat-option>
-                </mat-select>
-              </mat-form-field>
-              <button (click)="AddNewResFunday()" class="btn btn-danger" [disabled]="!NewResForFunday.valid">Send</button>
+            <form class="mb-0 d-flex justify-content-center align-items-center flex-column"[formGroup]="NewResForFunday" *ngIf="event.color.length > 0" >
+              <div class="d-flex tt justify-content-center w-100">
+                <mat-form-field appearance="outline" class="me-1" >
+                  <mat-label>Color</mat-label>
+                  <mat-select formControlName="Color">
+                    <mat-option *ngFor="let Color of event.color" value="{{Color}}">{{Color}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="ms-1">
+                  <mat-label>Date</mat-label>
+                  <mat-select   formControlName="Date">
+                    <mat-option *ngFor="let datee of event.avaliableDates" value="{{datee._id}}">{{datee.date}} at {{datee.time}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <button (click)="AddNewResFunday(event.eventCode)" class="btn btn-danger" [disabled]="!NewResForFunday.valid">Book Now</button>
+              <p *ngIf="message" class="text-danger fw-bold" >{{message}}</p>  
             </form>
-          </mat-card-actions>
-          <p *ngIf="message" class="text-danger fw-bold" >{{message}}</p>  
-          <mat-hint class="mt-2" >Friends Should Select The Same Color To be Togther in The Same Group</mat-hint>
-      </mat-card> 
-        <mat-card class="example-card my-3 col-lg-3 col-md-4 col-sm-6 col-xsm-12" [@cardAnimation]>
-          <mat-card-header>
-            <div ></div>
-            <img mat-card-avatar class="example-header-image ms-2"  src="assets/summer school clip art.jpg" alt="Custom Avatar Image">
-            <mat-card-title class="mt-2 ps-0">Summer Club</mat-card-title>
-            <mat-card-subtitle class="mt-1 ps-0">During the Summer</mat-card-subtitle>
-          </mat-card-header>
-          <img class="main-img" mat-card-image src="assets/bmdi_390o_161206.jpg" alt="Photo of a Shiba Inu">
-          <mat-card-content>
-            <p class="fs-6 mb-2 main-para">
-              We kindly request that you make a reservation for the upcoming funday event, so we can ensure that we have enough space and resources for all attendees. Thank you for your cooperation.
-            </p>
-            <span class="fw-bold fs-5">Price : 150 $ </span>
-            <p class="fw-bold">You can check the available time slots from here.  </p>
-            <p class="text-center">
-              <mat-icon class="arrow-icon fs-2" [@bounce]="arrowState" (click)="toggleArrowState()">expand_more</mat-icon>
-            </p>
-          </mat-card-content>
-          <mat-card-actions class="mb-0">
-            <button routerLink="/nady" class="btn carnival-button btn-danger ms-auto p-2">Book Now <mat-icon class="icon ">info_i</mat-icon></button>
+            <div class="d-flex mx-auto align-items-center flex-column my-2" *ngIf="event.color.length == 0">
+              <mat-icon class="arrow-icon fs-2 my-3" [@bounce]="arrowState" (click)="toggleArrowState()">expand_more</mat-icon>
+              <button class="d-block btn btn-warning text-white my-1" routerLink="/nady" *ngIf="event.color.length == 0" >See Avaliable Dates</button>
+            </div>
           </mat-card-actions>
           <mat-hint class="mt-2" >Friends Should Select The Same Color To be Togther in The Same Group</mat-hint>
         </mat-card> 

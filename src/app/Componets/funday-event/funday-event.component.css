@@ -1,0 +1,45 @@
+mat-form-field {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+.fa-plus{
+  width: 15px !important;
+  height: 15px !important;
+  border: 2px solid white;
+  padding: 1px;
+  border-radius: 50%;
+  margin-bottom: -2px;
+  margin-left: 5px;
+}
+.btn{
+  padding-top: 4px;
+  padding: 5px;
+}
+.message{
+  width: 100%;
+  color: red;
+  font-weight: bold;
+}
+.loading-layout{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}  
+.fa-trash{
+    color: rgb(238, 87, 87);
+    width: 20px !important;
+    height: 20px !important;
+    cursor: pointer;
+}

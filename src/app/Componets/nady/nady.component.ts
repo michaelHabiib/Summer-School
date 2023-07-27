@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, ElementRef } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ReservtionService } from 'src/app/services/reservtion.service';
+import { EventService } from 'src/app/services/event.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -8,20 +9,49 @@ import Swal from 'sweetalert2';
   templateUrl: './nady.component.html',
   styleUrls: ['./nady.component.css']
 })
-export class NadyComponent implements AfterViewInit {
+export class NadyComponent implements AfterViewInit, OnInit {
 
-  constructor(private elementRef: ElementRef, private _ReservtionService : ReservtionService ){}
+  constructor(private elementRef: ElementRef,
+     private _ReservtionService : ReservtionService,
+     public EventService : EventService ){}
+  ngOnInit(): void {
+    this.getAllEvents()
+  }
   ngAfterViewInit(): void {
     window.scrollTo(0, 0);
   }
   loading = false;
   message : String | undefined 
   weeks = this._ReservtionService.weeks
-
+  SummerEvents :any [] = []
   NewResForNady = new FormGroup({
     CodeForm: new FormControl('', [Validators.required]),
     ColorGroup: new FormControl('', [Validators.required]),
   });
+  getAllEvents(){
+    console.log('test');
+    
+    this.EventService.getAllEvents().subscribe({
+      next : (result) => {
+        console.log(result);
+        
+        for(let i =0; i < result.length; i++){
+          console.log('2');
+          
+          if(result[i].avaliableDates.length != 0){
+            continue;
+          }else{
+            this.SummerEvents.push(result[i])
+            console.log(this.SummerEvents);
+
+          }
+        }
+      },
+      error : (err) =>{
+        console.log(err);
+      }
+    })
+  }
 
   ReserveNady(codeValue: any,ColorValue: string,monthForm:string) {
     if(localStorage.getItem('token')){

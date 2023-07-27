@@ -3,6 +3,7 @@
     margin: 5px;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
     transition: box-shadow 0.3s ease;
+    height: fit-content;
   }
   
   .example-card:hover {
@@ -45,22 +46,11 @@
   .example-content {
     padding: 16px;
   }
-  mat-card-actions form {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
 
-  }
   
-  mat-form-field {
-    flex-basis: calc(50% - 5px);
-  }
-  
-  mat-form-field + mat-form-field {
-    margin-left: 8px;
-  }
-  
+  /* mat-form-field {
+    width: 50% !important;
+  } */
   mat-hint {
     display: block;
     margin-top: -15px;
@@ -69,9 +59,6 @@
     font-weight: 500;
   }
   .mdc-card__actions {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
     box-sizing: border-box;
     min-height: 52px;
     padding: 3px;
@@ -79,6 +66,7 @@
   .btn-danger{
     width: 100%;
     position: relative;
+    margin: 0px 15px;
   }
   .icon{
     position: absolute;
@@ -131,6 +119,26 @@
     width: 98%;
   }
 }
+@media (min-width:767px) and (max-width:1200px) {
+  mat-form-field{
+    width:40% !important;
+  }
+  .tt{
+    justify-content: start;
+    margin: 0px !important;
+    padding: 0px !important;
+  }
+  /* mat-form-field {
+    width: 35% !important;
+    margin-left: ;
+  } */
+  /* .tt{
+    background-color: red;
+    margin-left: 0px !important;
+    padding-left: 0px !important;
+  } */
+
+}
 .fs-3 {
   font-size: 2rem;
   margin-bottom: 1rem;
@@ -140,7 +148,20 @@
   font-weight: bold;
   color: #007bff;
 }
-
-
+mat-select, mat-form-field{
+  cursor: pointer;
+}
+.color{
+  margin-left: -37px;
+}
+mat-radio-button{
+  padding-bottom: 5px;
+}
+.last {
+  display: block;
+}
+button.btn-warning{
+  width: 100%;
+}
 
 
