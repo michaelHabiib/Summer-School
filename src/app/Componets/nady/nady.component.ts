@@ -24,26 +24,23 @@ export class NadyComponent implements AfterViewInit, OnInit {
   message : String | undefined 
   weeks = this._ReservtionService.weeks
   SummerEvents :any [] = []
-  NewResForNady = new FormGroup({
-    CodeForm: new FormControl('', [Validators.required]),
-    ColorGroup: new FormControl('', [Validators.required]),
-  });
+  // NewResForNady = new FormGroup({
+  //   CodeForm: new FormControl('', [Validators.required]),
+  //   ColorGroup: new FormControl('', [Validators.required]),
+  // });
   getAllEvents(){
-    console.log('test');
-    
+    this.loading = true
     this.EventService.getAllEvents().subscribe({
       next : (result) => {
+        this.loading = false
         console.log(result);
-        
         for(let i =0; i < result.length; i++){
-          console.log('2');
           
           if(result[i].avaliableDates.length != 0){
             continue;
           }else{
             this.SummerEvents.push(result[i])
             console.log(this.SummerEvents);
-
           }
         }
       },
@@ -53,70 +50,69 @@ export class NadyComponent implements AfterViewInit, OnInit {
     })
   }
 
-  ReserveNady(codeValue: any,ColorValue: string,monthForm:string) {
+  ReserveNady(group: any, eventCode : string) {
     if(localStorage.getItem('token')){
       this.loading = true
       let modal = {
-        code : codeValue,
-        color : ColorValue,
-        duration : monthForm,
+        code : localStorage.getItem('code'),
+        geroupID : group._id,
+        eventCode : eventCode,
         userID : localStorage.getItem('userID')
       }
+      console.log(modal);
       const token = localStorage.getItem('token')
       this._ReservtionService.ReservNady(modal,token).subscribe({
         next : (result) =>{
+          console.log(result);
           this.loading = false
           this.message = result.message
-          codeValue = ''
-          this.NewResForNady.reset()
         },
         error : (err) =>{
           console.log(err);
           this.message = err.error.message
           this.loading = false
-          this.NewResForNady.reset()
         }
       })    
     }else{
       Swal.fire('Please Login First ')
     }
   }
-  ReserveHoleNady() {
-    if(localStorage.getItem('token')){
-      this.loading = true
-      let modal = {
-        code : this.NewResForNady.value.CodeForm,
-        color : this.NewResForNady.value.ColorGroup,
-        duration : 'full',
-        userID : localStorage.getItem('userID')
-      }
-      // console.log(modal);
+  // ReserveHoleNady() {
+  //   if(localStorage.getItem('token')){
+  //     this.loading = true
+  //     let modal = {
+  //       code : this.NewResForNady.value.CodeForm,
+  //       color : this.NewResForNady.value.ColorGroup,
+  //       duration : 'full',
+  //       userID : localStorage.getItem('userID')
+  //     }
+  //     // console.log(modal);
       
-      const token = localStorage.getItem('token')
-      this._ReservtionService.ReservNady(modal,token).subscribe({
-        next : (result) =>{
-          this.loading = false
-          this.message = result.message
-          this.NewResForNady.reset()
-        },
-        error : (err) =>{
-          // console.log(err);
-          this.message = err.error.message
-          // console.log(this.message);
-          this.loading = false
-        }
-      })    
-    }else{
-      Swal.fire('Please Login First ')  
-    }
-  }
+  //     const token = localStorage.getItem('token')
+  //     this._ReservtionService.ReservNady(modal,token).subscribe({
+  //       next : (result) =>{
+  //         this.loading = false
+  //         this.message = result.message
+  //         this.NewResForNady.reset()
+  //       },
+  //       error : (err) =>{
+  //         // console.log(err);
+  //         this.message = err.error.message
+  //         // console.log(this.message);
+  //         this.loading = false
+  //       }
+  //     })    
+  //   }else{
+  //     Swal.fire('Please Login First ')  
+  //   }
+  // }
 
-  GetErrorPasswordMsg(){
-    if (this.NewResForNady.controls.CodeForm.hasError('required')) {
-      return 'You must enter a value ';
-    }else{
-      return '';
-    }
-  }
+    // GetErrorPasswordMsg(){
+    //   if (this.NewResForNady.controls.CodeForm.hasError('required')) {
+    //     return 'You must enter a value ';
+    //   }else{
+    //     return '';
+    //   }
+    // }
 
 }

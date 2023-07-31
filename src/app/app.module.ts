@@ -21,7 +21,8 @@ import { AttandenceComponent } from './componets/attandence/attandence.component
 import { FundayComponent } from './Componets/funday/funday.component';
 import { NadyResultComponent } from './Componets/nady-result/nady-result.component';
 import { ContactUsComponent } from './Componets/contact-us/contact-us.component';
-
+import { EventSummerClubComponent } from './Componets/event-summer-club/event-summer-club.component';
+import { FundayEventComponent } from './Componets/funday-event/funday-event.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,6 +38,8 @@ import { ContactUsComponent } from './Componets/contact-us/contact-us.component'
     FundayComponent,
     NadyResultComponent,
     ContactUsComponent,
+    EventSummerClubComponent,
+    FundayEventComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,5 @@
-<div class="my-5">
+<main>
+  <div class="my-5">
     <h1 class="text-center">Summer Club Dates For kids</h1>
     <mat-accordion class="timeline">
         <mat-expansion-panel *ngFor="let summerEvent of SummerEvents">
@@ -10,19 +11,21 @@
           </mat-expansion-panel-header>
           <mat-panel-description *ngFor="let group of summerEvent.availableColors" >
             <div class="timeline-group-title-wrapper">
-              <h3 class="timeline-group-title">Available Times:</h3>
               <ul class="timeline-group-list">
                 <li  class="timeline-group">
                   <h4 class="timeline-group-subtitle">{{group.color}} Group:</h4>
+                  <h3 class="timeline-group-title">Available Dates For This Group:</h3>
                   <div class="timeline-group-times">
                     <span *ngFor="let date of group.dateTime" class="timeline-group-time">{{date.date}} {{date.time}}</span>
                   </div>
                   <p *ngIf="message" class="text-danger fw-bold" >{{message}}</p>  
-                  <mat-hint class="mt-0 text-danger fw-bold" >this Reservtion Valid For This Month only</mat-hint>
+                  <!-- <mat-hint class="mt-0 text-danger fw-bold" >this Reservtion Valid For This Month only</mat-hint> -->
                 </li>
               </ul>
+              <button class="btn btn-success d-block"  (click)="ReserveNady(group, summerEvent.eventCode)">Book Now</button>
+
             </div>
-            <form [formGroup]="NewResForNady" >
+            <!-- <form [formGroup]="NewResForNady" >
               <mat-form-field appearance="outline">
                   <mat-label>Your Code</mat-label>
                   <input matInput formControlName="CodeForm" type="number" min="1">
@@ -40,43 +43,14 @@
                   </mat-select>
               </mat-form-field>
               <br>  
-              <button class="btn btn-success" [disabled]="!NewResForNady.valid" (click)="ReserveHoleNady()">Make a Reservtion</button>
-              <p *ngIf="message" class="text-danger fw-bold" >{{message}}</p>  
-            </form>
+            </form> -->
+            <p *ngIf="message" class="text-danger fw-bold" >{{message}}</p>  
+
           </mat-panel-description>
         </mat-expansion-panel>
     </mat-accordion>
 </div>
-<!-- <div class="container">
-    <h3 class="fw-bold text-center fs-3">Offer For the Whole Summer</h3>
-    <div class="contant d-flex justify-content-evenly">
-        <form [formGroup]="NewResForNady" >
-            <mat-form-field appearance="outline">
-                <mat-label>Your Code</mat-label>
-                <input matInput formControlName="CodeForm" type="number" min="1">
-                <mat-error class="fs-6 fw-bold" *ngIf="NewResForNady.controls.CodeForm.invalid">{{GetErrorPasswordMsg()}}</mat-error>
-            </mat-form-field>
-            <br>
-            <mat-form-field appearance="outline">
-                <mat-label>Select</mat-label>
-                <mat-select formControlName="ColorGroup">
-                <mat-option value="red">red</mat-option>
-                <mat-option value="brown">brown</mat-option>
-                <mat-option value="black">black</mat-option>
-                <mat-option value="Green">green</mat-option>
-                <mat-option value="blue">blue</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <br>  
-            <button class="btn btn-success" [disabled]="!NewResForNady.valid" (click)="ReserveHoleNady()">Make a Reservtion</button>
-            <p *ngIf="message" class="text-danger fw-bold" >{{message}}</p>  
-          </form>
-
-        <div class="img-holder">
-            <img src="assets/depositphotos_26296093-stock-photo-3d-special-offer-word-on.jpg" alt="">
-        </div>
-    </div>
-</div> -->
+</main>
 <div class="loading-layout" *ngIf= "loading">
     <mat-spinner  class="loading" ></mat-spinner>
 </div>

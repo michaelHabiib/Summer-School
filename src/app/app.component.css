@@ -13,7 +13,7 @@ app-navbar{
     width: 100% !important;
 }
 .sidenav{
-    width: 200px !important;
+    width: 220px !important;
 }
 mat-list-item {
     cursor: pointer !important;
@@ -36,9 +36,25 @@ mat-list-item {
   .btn:active .fa-arrow-right {
     transform: translateX(10px);
   }
-  /* app-footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  } */
+.mat-expansion-panel{
+    box-shadow: none !important;
+    background-color: white !important;
+}
+.disable_ripple:hover{
+  background: none !important;
+}
+.button:hover .disable_ripple{
+  background: none !important;
+}
+.selected-button {
+  background-color: #5d87fd !important;
+  color: white;
+  border-radius: 8px;
+}
+.Attendance-button{
+  width: 100%;
+  text-align: start;
+  padding: 8px 5px;
+  border: none;
+  background-color: white;
+}

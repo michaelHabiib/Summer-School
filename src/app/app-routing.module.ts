@@ -10,6 +10,8 @@ import { AttandenceComponent } from './componets/attandence/attandence.component
 import { FundayComponent } from './Componets/funday/funday.component';
 import { NadyResultComponent } from './Componets/nady-result/nady-result.component';
 import { ContactUsComponent } from './Componets/contact-us/contact-us.component';
+import { EventSummerClubComponent } from './Componets/event-summer-club/event-summer-club.component';
+import { FundayEventComponent } from './Componets/funday-event/funday-event.component';
 
 const routes: Routes = [
   {path: 'signUp', component:SignUpComponent},
@@ -21,6 +23,8 @@ const routes: Routes = [
   {path: 'funday',component:FundayComponent},
   {path: 'Nady',component:NadyResultComponent},
   {path: 'contact',component:ContactUsComponent},
+  {path: 'summerClub',component:EventSummerClubComponent},
+  {path: 'fundayEvent',component:FundayEventComponent},
   {path: '',component:LandingComponent},
 ];
 

@@ -1,30 +1,63 @@
 <mat-sidenav-container>
   <mat-drawer-container class="example-container" style="height: calc(100%);">
     <mat-drawer #drawer class="sidenav" mode="over" style="height: calc(100%);">
-      <p class="text-center fw-bold pt-4">Admin Dashboard</p>
-      <mat-list role="list">
-        <button class="ms-5 btn" mat-button [matMenuTriggerFor]="att"><i class="fa-solid fa-arrow-right pe-2"></i>Attendance</button>
-        <button class="ms-5 d-block btn" (click)="drawer.toggle()" mat-button role="listitem" [routerLink]= "['/funday']">Funday</button>
-        <button class="ms-5 d-block btn" (click)="drawer.toggle()" mat-button role="listitem"  [routerLink]= "['/Nady']">Nady</button>
-      </mat-list>
+      <h2 class="my-3 px-2" > <i class="fa-solid fa-child-reaching pe-1"></i> Summer School</h2>
+      <p class="text-center fw-bold pt-0">Admin Dashboard</p>
+      <mat-accordion>
+        <mat-expansion-panel >
+      <mat-expansion-panel-header class="disable_ripple" >
+            <mat-panel-title class="ps-1" >
+              Manage Attendance 
+            </mat-panel-title>
+          </mat-expansion-panel-header  >
+          <button class="Attendance-button"  (click)="passValue('all')" 
+           [routerLink]= "['/attendance']" [ngClass]="{ 'selected-button': selectedValue === 'all' }">All Classes</button>
+          <button class="Attendance-button" (click)="passValue('user')"
+           [routerLink]= "['/attendance']" [ngClass]="{ 'selected-button': selectedValue === 'user' }">Attendance of User</button>
+          <button class="Attendance-button" (click)="passValue('bc')"
+           [routerLink]= "['/attendance']" [ngClass]="{ 'selected-button': selectedValue === 'bc' }" >Baby Class</button>
+          <button class="Attendance-button" (click)="passValue('kg1')"
+           [routerLink]= "['/attendance']" [ngClass]="{ 'selected-button': selectedValue === 'kg1' }" >KG1 Class</button>
+          <button class="Attendance-button"  (click)="passValue('kg2')"
+           [routerLink]= "['/attendance']" [ngClass]="{ 'selected-button': selectedValue === 'kg2' }" >KG2 Class</button>
+          <button class="Attendance-button" (click)="passValue('prim1')"
+           [routerLink]= "['/attendance']" [ngClass]="{ 'selected-button': selectedValue === 'prim1' }" >Prim1 Class</button>
+        </mat-expansion-panel>
+        <mat-expansion-panel >
+          <mat-expansion-panel-header class="disable_ripple" >
+                <mat-panel-title class="ps-1" >
+                  Add Event 
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <button class="Attendance-button" (click)="passValue('funday')" 
+              [routerLink]= "['/fundayEvent']"[ngClass]="{ 'selected-button': selectedValue === 'funday' }">Funday</button>
+              <button class="Attendance-button" (click)="passValue('summerClub')" 
+              [routerLink]= "['/summerClub']" [ngClass]="{ 'selected-button': selectedValue === 'summerClub' }">Summer Club</button>
+        </mat-expansion-panel>
+        <mat-expansion-panel >
+          <mat-expansion-panel-header class="disable_ripple" >
+                <mat-panel-title class="ps-1" >
+                  Manage Events
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <button class="Attendance-button" (click)="passValue('club')" routerLink="/Nady"
+               [ngClass]="{ 'selected-button': selectedValue === 'club' }">Summer Club Results</button>
+              <button class="Attendance-button" (click)="passValue('Funday')" routerLink="/funday"
+               [ngClass]="{ 'selected-button': selectedValue === 'Funday' }">Funday Results</button>
+              <button class="Attendance-button" (click)="passValue('manage')" 
+               [ngClass]="{ 'selected-button': selectedValue === 'manage' }">Update Event</button>
+              <button class="Attendance-button" (click)="passValue('summerClub')" 
+              [routerLink]= "['/summerClub']" [ngClass]="{ 'selected-button': selectedValue === 'summerClub' }">statics</button>
+        </mat-expansion-panel>
+      </mat-accordion>
     </mat-drawer>
     <mat-toolbar>
-          <button type="button" class="me-2"  mat-button (click)="drawer.toggle()">
+          <button type="button" class="mx-2"  mat-button (click)="drawer.toggle()">
             <mat-icon class="fs-4">menu</mat-icon>
           </button>
           <app-navbar></app-navbar>
     </mat-toolbar>
-    <!-- <app-our-services></app-our-services> -->
     <router-outlet></router-outlet>  
     <app-footer></app-footer>
   </mat-drawer-container>
 </mat-sidenav-container>
-
-<mat-menu class="ms-5 " #att="matMenu" yPosition="below" xPosition="after" >
-  <button mat-menu-item (click)="passValue('all')" [routerLink]= "['/attendance']" >All Classes</button>
-  <button mat-menu-item (click)="passValue('user')" [routerLink]= "['/attendance']" >User</button>
-  <button mat-menu-item (click)="passValue('bc')" [routerLink]= "['/attendance']" >baby Class</button>
-  <button mat-menu-item (click)="passValue('kg1')" [routerLink]= "['/attendance']"  >KG1</button>
-  <button mat-menu-item (click)="passValue('kg2')" [routerLink]= "['/attendance']" >KG2</button>
-  <button mat-menu-item (click)="passValue('prim1')" [routerLink]= "['/attendance']"  >Prim1</button>
-</mat-menu>

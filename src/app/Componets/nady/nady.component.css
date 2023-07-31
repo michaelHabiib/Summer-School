@@ -101,7 +101,7 @@
     flex-direction: column;
   }
   .btn-success{
-    height: 56px;
+    /* height: 56px; */
   }
   .loading-layout{
     position: fixed;
@@ -121,4 +121,7 @@
 }
 .img-holder img{
     width: 100%;
+}
+main{
+  min-height: 200px;
 }

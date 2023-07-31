@@ -94,10 +94,6 @@ export class OurServicesComponent implements OnInit {
           userID : localStorage.getItem('userID'),
           isPaid: false
         }
-        console.log(modal);
-        console.log(this.NewResForFunday.controls);
-        
-        
         let token = localStorage.getItem('token')
         this._ReservtionService.ReservFunday(modal, token).subscribe({
           next : (result) =>{

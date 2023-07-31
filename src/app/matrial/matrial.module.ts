@@ -21,7 +21,7 @@ import {MatTableModule, MatTableDataSource} from '@angular/material/table';
 import { LayoutModule } from '@angular/cdk/layout';
 import {MatTreeModule} from '@angular/material/tree';
 import {MatRadioModule} from '@angular/material/radio';
-
+import {MatCheckboxModule} from '@angular/material/checkbox';
 @NgModule({
   declarations: [],
   imports: [
@@ -46,7 +46,8 @@ import {MatRadioModule} from '@angular/material/radio';
     MatTableModule,
     LayoutModule,
     MatTreeModule,
-    MatRadioModule
+    MatRadioModule,
+    MatCheckboxModule
   ],exports : [
     MatButtonModule,
     MatToolbarModule,
@@ -68,7 +69,8 @@ import {MatRadioModule} from '@angular/material/radio';
     MatTableModule,
     LayoutModule,
     MatTreeModule,
-    MatRadioModule
+    MatRadioModule,
+    MatCheckboxModule
   ]
 })
 export class MatrialModule { }

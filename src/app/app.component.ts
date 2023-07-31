@@ -15,6 +15,7 @@ export class AppComponent implements AfterViewInit,OnInit {
   isDrawerOpen: boolean = false;
   activeClass: string = '';
   isRegstired :  boolean
+  selectedValue!: string
   constructor(private router: Router,
     private breakpointObserver: BreakpointObserver,
     private _ReservtionService : ReservtionService,
@@ -41,6 +42,7 @@ export class AppComponent implements AfterViewInit,OnInit {
 
 
   passValue(value : string) {
+    this.selectedValue = value;
     this.drawer.close();
     this._ReservtionService.setSelectedValue(value)
     // console.log(value);

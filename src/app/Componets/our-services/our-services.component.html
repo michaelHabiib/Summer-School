@@ -19,8 +19,8 @@
             <span class="fw-bold fs-6">{{event.price}} EGP</span>
           </mat-card-content>
           <mat-card-actions class="mb-0">
-            <form class="mb-0 d-flex justify-content-center align-items-center flex-column"[formGroup]="NewResForFunday" *ngIf="event.color.length > 0" >
-              <div class="d-flex tt justify-content-center w-100">
+            <form class="mb-0"[formGroup]="NewResForFunday" *ngIf="event.color.length > 0" >
+              <div class="d-flex tt lg-justify-content-center md-justify-content-start sm-justify-content-start">
                 <mat-form-field appearance="outline" class="me-1" >
                   <mat-label>Color</mat-label>
                   <mat-select formControlName="Color">
@@ -34,7 +34,7 @@
                   </mat-select>
                 </mat-form-field>
               </div>
-              <button (click)="AddNewResFunday(event.eventCode)" class="btn btn-danger" [disabled]="!NewResForFunday.valid">Book Now</button>
+              <button (click)="AddNewResFunday(event.eventCode)" class="mx-auto btn btn-danger" [disabled]="!NewResForFunday.valid">Book Now</button>
               <p *ngIf="message" class="text-danger fw-bold" >{{message}}</p>  
             </form>
             <div class="d-flex mx-auto align-items-center flex-column my-2" *ngIf="event.color.length == 0">
