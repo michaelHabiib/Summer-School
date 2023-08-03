@@ -1,0 +1,33 @@
+.container{
+    min-height: 400px;
+}
+textarea{
+    min-height: 100px;
+}
+.loading-layout{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} 
+.fa-trash{
+    color: rgb(238, 87, 87);
+    width: 25px !important;
+    height: 25px !important;
+    cursor: pointer;
+}
+.custom-snackbar {
+    background-color: green;
+    color: #ffffff;
+}
+.btn-secondary {
+    height: 45px !important;
+}
+  
+

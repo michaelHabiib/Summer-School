@@ -6,40 +6,47 @@
           <mat-card-header>
             <img mat-card-avatar class="example-header-image ms-2"  src="assets/summer school clip art.jpg" alt="Custom Avatar Image">
             <mat-card-title class="mt-2 ps-0">{{event.name}}</mat-card-title>
-            <mat-card-subtitle class="mt-1 ps-0" *ngIf="event.color.length == 0" >Duaring All the Summer</mat-card-subtitle>
-            <mat-card-subtitle class="mt-1 ps-0" *ngIf="event.color.length > 0" >Now avaliable</mat-card-subtitle>
+            <mat-card-subtitle class="mt-1 ps-0" *ngIf="event.colors.length == 0" >Duaring All the Summer</mat-card-subtitle>
+            <mat-card-subtitle class="mt-1 ps-0" *ngIf="event.colors.length > 0" >Now avaliable</mat-card-subtitle>
           </mat-card-header>
-          <img *ngIf="event.color.length > 0" class="main-img" mat-card-image src="assets/ori_3736145_jvoab6y34d891sd2jnsltsaaqjj4mp5lp0mkn7rz_kids-fun-day-illustration.png" alt="Photo of a Shiba Inu">
-          <img *ngIf="event.color.length == 0" class="main-img" mat-card-image src="assets/bmdi_390o_161206.jpg" alt="Photo of a Shiba Inu">
-          <mat-card-content>
-            <p class="fs-6 mb-2 main-para">
+          <img *ngIf="event.colors.length > 0" class="main-img" mat-card-image src="assets/ori_3736145_jvoab6y34d891sd2jnsltsaaqjj4mp5lp0mkn7rz_kids-fun-day-illustration.png" alt="Photo of a Shiba Inu">
+          <img *ngIf="event.colors.length == 0" class="main-img" mat-card-image src="assets/bmdi_390o_161206.jpg" alt="Photo of a Shiba Inu">
+          <mat-card-content class="pb-2">
+            <p class="fs-6 mb-2 ">
               {{event.details}}
             </p>
             <br>
-            <span class="fw-bold fs-6">{{event.price}} EGP</span>
+            <span class=" fs-6 text-white price p-2"[ngClass]="{'color1': event.colors.length > 0, 'color2' : event.colors.length == 0 }"
+             >{{event.price}} EGP</span>
           </mat-card-content>
           <mat-card-actions class="mb-0">
-            <form class="mb-0"[formGroup]="NewResForFunday" *ngIf="event.color.length > 0" >
-              <div class="d-flex tt lg-justify-content-center md-justify-content-start sm-justify-content-start">
+            <form class="mb-0"[formGroup]="NewResForFunday" *ngIf="event.colors.length > 0" >
+              <div class="">
                 <mat-form-field appearance="outline" class="me-1" >
                   <mat-label>Color</mat-label>
                   <mat-select formControlName="Color">
-                    <mat-option *ngFor="let Color of event.color" value="{{Color}}">{{Color}}</mat-option>
+                    <mat-option *ngFor="let Color of event.colors"
+                    [disabled]="!Color.avaliable"
+                     value="{{Color.color}}">
+                     {{Color.color}}
+                    </mat-option>
                   </mat-select>
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="ms-1">
                   <mat-label>Date</mat-label>
                   <mat-select   formControlName="Date">
-                    <mat-option *ngFor="let datee of event.avaliableDates" value="{{datee._id}}">{{datee.date}} at {{datee.time}}</mat-option>
+                    <mat-option *ngFor="let datee of event.avaliableDates" 
+                     value="{{datee._id}}">
+                     {{datee.date}} at {{datee.time}}
+                    </mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
-              <button (click)="AddNewResFunday(event.eventCode)" class="mx-auto btn btn-danger" [disabled]="!NewResForFunday.valid">Book Now</button>
-              <p *ngIf="message" class="text-danger fw-bold" >{{message}}</p>  
+              <button (click)="AddNewResFunday(event.eventCode)" class="mx-auto btn btn-danger w-100" [disabled]="!NewResForFunday.valid">Book Now</button>
             </form>
-            <div class="d-flex mx-auto align-items-center flex-column my-2" *ngIf="event.color.length == 0">
+            <div class="d-flex mx-auto align-items-center flex-column my-2" *ngIf="event.colors.length == 0">
               <mat-icon class="arrow-icon fs-2 my-3" [@bounce]="arrowState" (click)="toggleArrowState()">expand_more</mat-icon>
-              <button class="d-block btn btn-warning text-white my-1" routerLink="/nady" *ngIf="event.color.length == 0" >See Avaliable Dates</button>
+              <button class="d-block btn btn-warning text-white my-1 w-100" routerLink="/nady" *ngIf="event.colors.length == 0" >See Avaliable Dates</button>
             </div>
           </mat-card-actions>
           <mat-hint class="mt-2" >Friends Should Select The Same Color To be Togther in The Same Group</mat-hint>

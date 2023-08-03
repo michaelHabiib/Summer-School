@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ReservtionService } from 'src/app/services/reservtion.service';
 import { EventService } from 'src/app/services/event.service';
 import Swal from 'sweetalert2';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-nady',
@@ -13,7 +14,8 @@ export class NadyComponent implements AfterViewInit, OnInit {
 
   constructor(private elementRef: ElementRef,
      private _ReservtionService : ReservtionService,
-     public EventService : EventService ){}
+     public EventService : EventService,
+     private _snackBar: MatSnackBar  ){}
   ngOnInit(): void {
     this.getAllEvents()
   }
@@ -24,10 +26,6 @@ export class NadyComponent implements AfterViewInit, OnInit {
   message : String | undefined 
   weeks = this._ReservtionService.weeks
   SummerEvents :any [] = []
-  // NewResForNady = new FormGroup({
-  //   CodeForm: new FormControl('', [Validators.required]),
-  //   ColorGroup: new FormControl('', [Validators.required]),
-  // });
   getAllEvents(){
     this.loading = true
     this.EventService.getAllEvents().subscribe({
@@ -49,7 +47,14 @@ export class NadyComponent implements AfterViewInit, OnInit {
       }
     })
   }
-
+  openSnackBar(message: string) {
+    this._snackBar.open(message, '',{
+      duration: 4000, // 5 seconds
+      panelClass: 'custom-snackbar',
+      verticalPosition: 'bottom', 
+      horizontalPosition: 'center'
+    });
+  }
   ReserveNady(group: any, eventCode : string) {
     if(localStorage.getItem('token')){
       this.loading = true
@@ -65,11 +70,11 @@ export class NadyComponent implements AfterViewInit, OnInit {
         next : (result) =>{
           console.log(result);
           this.loading = false
-          this.message = result.message
+          this.openSnackBar(result.message)
         },
         error : (err) =>{
           console.log(err);
-          this.message = err.error.message
+          this.openSnackBar(err.error.message)
           this.loading = false
         }
       })    
@@ -77,42 +82,5 @@ export class NadyComponent implements AfterViewInit, OnInit {
       Swal.fire('Please Login First ')
     }
   }
-  // ReserveHoleNady() {
-  //   if(localStorage.getItem('token')){
-  //     this.loading = true
-  //     let modal = {
-  //       code : this.NewResForNady.value.CodeForm,
-  //       color : this.NewResForNady.value.ColorGroup,
-  //       duration : 'full',
-  //       userID : localStorage.getItem('userID')
-  //     }
-  //     // console.log(modal);
-      
-  //     const token = localStorage.getItem('token')
-  //     this._ReservtionService.ReservNady(modal,token).subscribe({
-  //       next : (result) =>{
-  //         this.loading = false
-  //         this.message = result.message
-  //         this.NewResForNady.reset()
-  //       },
-  //       error : (err) =>{
-  //         // console.log(err);
-  //         this.message = err.error.message
-  //         // console.log(this.message);
-  //         this.loading = false
-  //       }
-  //     })    
-  //   }else{
-  //     Swal.fire('Please Login First ')  
-  //   }
-  // }
-
-    // GetErrorPasswordMsg(){
-    //   if (this.NewResForNady.controls.CodeForm.hasError('required')) {
-    //     return 'You must enter a value ';
-    //   }else{
-    //     return '';
-    //   }
-    // }
 
 }

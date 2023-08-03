@@ -1,13 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { EventService } from 'src/app/services/event.service';
 import { FormArray, FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-event-summer-club',
   templateUrl: './event-summer-club.component.html',
   styleUrls: ['./event-summer-club.component.css']
 })
 export class EventSummerClubComponent  {
-  constructor(private formBuilder: FormBuilder,public _EventService: EventService){
+  constructor(private formBuilder: FormBuilder,
+              public _EventService: EventService,
+              private _snackBar: MatSnackBar){
     this.addNewEvent = this.formBuilder.group({
       eventName: new FormControl('', Validators.required),
       eventPrice: new FormControl('', Validators.required),
@@ -35,6 +38,14 @@ export class EventSummerClubComponent  {
 
   ngOnInit() { }
 
+  openSnackBar(message: string) {
+    this._snackBar.open(message, '',{
+      duration: 4000, // 5 seconds
+      panelClass: 'custom-snackbar',
+      verticalPosition: 'bottom', 
+      horizontalPosition: 'center'
+    });
+  }
   availableColors(): FormArray {
     return this.addNewEvent.get("gg")?.get("availableColors") as FormArray
   }
@@ -81,10 +92,10 @@ export class EventSummerClubComponent  {
       next : (result) => {
         this.addNewEvent.reset()
         this.loading = false
-        this.message = result.message
+        this.openSnackBar(result.message)
       },
       error : (err) => {
-        console.log(err);
+        this.openSnackBar(err.error.message)
       }
     })
   }

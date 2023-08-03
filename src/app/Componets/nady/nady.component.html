@@ -1,6 +1,6 @@
 <main>
   <div class="my-5">
-    <h1 class="text-center">Summer Club Dates For kids</h1>
+    <h1 class="text-center">Summer Club Events</h1>
     <mat-accordion class="timeline">
         <mat-expansion-panel *ngFor="let summerEvent of SummerEvents">
           <mat-expansion-panel-header >
@@ -18,34 +18,10 @@
                   <div class="timeline-group-times">
                     <span *ngFor="let date of group.dateTime" class="timeline-group-time">{{date.date}} {{date.time}}</span>
                   </div>
-                  <p *ngIf="message" class="text-danger fw-bold" >{{message}}</p>  
-                  <!-- <mat-hint class="mt-0 text-danger fw-bold" >this Reservtion Valid For This Month only</mat-hint> -->
                 </li>
               </ul>
               <button class="btn btn-success d-block"  (click)="ReserveNady(group, summerEvent.eventCode)">Book Now</button>
-
             </div>
-            <!-- <form [formGroup]="NewResForNady" >
-              <mat-form-field appearance="outline">
-                  <mat-label>Your Code</mat-label>
-                  <input matInput formControlName="CodeForm" type="number" min="1">
-                  <mat-error class="fs-6 fw-bold" *ngIf="NewResForNady.controls.CodeForm.invalid">{{GetErrorPasswordMsg()}}</mat-error>
-              </mat-form-field>
-              <br>
-              <mat-form-field appearance="outline">
-                  <mat-label>Select</mat-label>
-                  <mat-select formControlName="ColorGroup">
-                  <mat-option value="red">red</mat-option>
-                  <mat-option value="brown">brown</mat-option>
-                  <mat-option value="black">black</mat-option>
-                  <mat-option value="Green">green</mat-option>
-                  <mat-option value="blue">blue</mat-option>
-                  </mat-select>
-              </mat-form-field>
-              <br>  
-            </form> -->
-            <p *ngIf="message" class="text-danger fw-bold" >{{message}}</p>  
-
           </mat-panel-description>
         </mat-expansion-panel>
     </mat-accordion>

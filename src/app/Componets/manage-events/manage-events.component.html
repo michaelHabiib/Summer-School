@@ -1,0 +1,104 @@
+<h1 class="text-center my-2" >Update Events</h1>
+<div class="container" *ngIf="eventForms && show ">
+        <mat-accordion class="my-2 " >
+            <mat-expansion-panel *ngFor="let eventForm of eventForms; let j=index " [formGroup]="eventForms[j]?.form" class="mb-3" >
+                    <mat-expansion-panel-header>
+                        <mat-panel-title >
+                            {{eventForm.form.value.name}}
+                        </mat-panel-title>
+                        <mat-panel-description>
+                          Updates
+                        </mat-panel-description>
+                      </mat-expansion-panel-header>
+                      <div class="d-flex ">
+                        <mat-form-field appearance="outline" class="me-1" >
+                          <mat-label>Event Name</mat-label>
+                          <input matInput placeholder="Ex. Funday For..."
+                           value={{eventForm.form.value.name}} formControlName="name">
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="ms-1">
+                          <mat-label>Event Price</mat-label>
+                          <input matInput placeholder="EX. 200"
+                           value="{{eventForm.form.value.price}}" formControlName="price">
+                        </mat-form-field>   
+                </div>
+                <p>
+                    <mat-form-field appearance="outline" class="w-100"  >
+                      <mat-label>Event Discrption</mat-label>
+                      <textarea matInput [value]="eventForm.form.value.details"
+                       placeholder="EX. announce For Funday in The First of July"
+                       formControlName="details"></textarea>
+                    </mat-form-field>
+                </p>
+                <!-- <button class="btn btn-success" (click)="AddDate(j)" >Add Date</button> -->
+                <div *ngIf="eventForm.colors.length > 0" >
+                    <div class="d-flex justify-content-center" *ngFor="let dates of eventForm.avaliableDates;let i=index">
+                        <mat-form-field appearance="outline" class="mx-1 mb-1 pb-0 w-50" >
+                            <mat-label>Date:</mat-label>
+                            <input matInput placeholder="EX. Satrday" [disabled]="!dates.avaliable"
+                             type="text"  required value="{{dates.date}}" >
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="mx-1 mb-1 pb-0 w-50" >
+                            <mat-label>Time:</mat-label>
+                            <input matInput placeholder="EX. 5 pm" [disabled]="!dates.avaliable"
+                             type="text" required value="{{dates.time}}" >
+                        </mat-form-field >
+                        <button class="btn btn-secondary gg me-2 mt-1" (click)="disableDates(j,i)" >{{ dates.avaliable == true ? 'Disable' : 'Enable' }}</button>
+                        <div class="d-flex" (click)="DeleteDate(j,dates)" >
+                            <i class="fa-solid fa-trash d-flex mt-3"></i>
+                        </div>
+                    </div>
+                </div>
+                <mat-form-field class="me-3" appearance="outline" class="text-white me-5" *ngIf="eventForm.colors.length > 0" >
+                    <mat-label>Disable Colors</mat-label>
+                    <mat-select (selectionChange)="updateAvabiltyOfColor($event, j)" class="text-white" >
+                      <mat-option *ngFor="let color of  eventForm.colors" 
+                      [value]="color.color" 
+                      [ngStyle]="{'background-color': !color.avaliable ? '(238, 87, 87)' : (color.avaliable ? 'transparent' : null)}">
+                       {{color.color}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div *ngIf="eventForm.colors.length === 0">
+                    <div class=""  *ngFor="let color of eventForm.availableColors;let i=index" >
+                        <div class="d-flex align-items-center">
+                            <p class="fs-4 me-2 mt-1"  [ngStyle]="{'color': !color.avaliable ? 'gray' : (!color.avaliable ? 'black' : null) }">
+                                {{color.color}} Group</p>
+                            <button class="btn btn-secondary me-2" (click)="diableColor(j,i)" >{{ color.avaliable == true ? 'Disable' : 'Enable' }}</button>
+                            <div (click)="removeGroup(j,i)" class="me-2" >
+                                <i class="fa-solid fa-trash"></i>
+                            </div>
+                        </div>
+                        <h3 class="fw-bold" >Avaliable Dates in this Group :</h3>
+                        <div>
+                            <div *ngFor="let date of color.dateTime; let y = index">
+                                <div  class="d-flex" >
+                                    <mat-form-field appearance="outline" class="mx-1 mb-1 pb-0 w-47">
+                                        <mat-label>Date:</mat-label>
+                                        <input matInput placeholder="EX. Satrday"
+                                         [value]="date.date" type="text" required [disabled]="!date.avaliable" >
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" class="mx-1 mb-1 pb-0 w-50">
+                                        <mat-label>Time:</mat-label>
+                                        <input matInput placeholder="EX. 5 pm" type="text"
+                                         [value]="date.time" required [disabled]="!date.avaliable">
+                                    </mat-form-field >
+                                    <button class="btn btn-secondary gg me-2 mt-1" (click)="disableDateTime(j,i,y)" >{{ date.avaliable == true ? 'Disable' : 'Enable' }}</button>
+                                    <div (click)="removeDateTime(j,i,y)" >
+                                        <i class="fa-solid fa-trash mt-3" *ngIf="show"></i>
+                                    </div>                     
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                  <button mat-raised-button color="warn" class="me-1" (click)="DeleteEvent(eventForm.form.value.eventCode)" >Delete</button>
+                  <button mat-raised-button color="primary" class="ms-1" (click)="UpdateEvent(j)" >Update</button>
+            </mat-expansion-panel>
+        </mat-accordion>
+
+</div>
+<div class="loading-layout" *ngIf= "!show">
+    <mat-spinner class="loading"></mat-spinner>
+</div>

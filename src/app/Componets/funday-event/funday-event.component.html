@@ -47,7 +47,6 @@
                     <div (click)="removeDate(i)" class="d-flex">
                         <i  class="fa-solid fa-trash d-flex mt-3"></i>
                     </div>
-                    
                 </div>
             </div>
             <button class="btn btn-danger d-block my-2" [disabled]="!AddNewEvent.valid" (click) = "createEvent()" >Create Event</button>
@@ -58,3 +57,6 @@
 <div class="loading-layout" *ngIf= "loading">
     <mat-spinner class="loading"></mat-spinner>
 </div>
+<main>
+
+</main>
