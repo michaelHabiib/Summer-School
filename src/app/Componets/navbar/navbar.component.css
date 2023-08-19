@@ -5,21 +5,16 @@
     right: 25px;
     border: none !important;
 }
+.navbar{
+  height: 70px !important;
+}
 .nav-link {
     height: 50px;
     cursor: pointer;
+    color: #00b4c1;
 }
-.navbar-nav a {
-    color: #555;
-  }
-  
   .navbar-nav a:hover {
     color: #333;
-  }
-  .arrow {
-    display: inline-block;
-    animation: arrow 1s infinite;
-    display: none;
   }
   @media (max-width:992px) {
     .dropdown-menu {
@@ -29,10 +24,6 @@
         background-color: #f0f0f0;
         margin-top: 0;
     }
-    .arrow {
-        display: inline-block;
-        animation: arrow 1s infinite;   
-      }
   }
   @media (max-width:767px) {
     .flex a {
@@ -42,19 +33,9 @@
       font-size: 15px;
     }
   }
-  @keyframes arrow {
-    0% {
-      transform: translateX(0);
-    }
-    50% {
-      transform: translateX(10px);
-    }
-    100% {
-      transform: translateX(0);
-    }
-  }
   .navbar-brand{
     font-family: Pacifico;
+    color: #00b4c1;
   }
   .logout-Menu{
     cursor: pointer;
@@ -66,3 +47,39 @@
   .biko{
     background-color: #333;
   }
+.select{
+  word-wrap: normal;
+  background-color: #00b4c1;
+  border: none;
+  color: #555454;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 8px;
+  color: white;
+}
+.select option{
+  border-radius: 8px;
+}
+option:hover {
+  background-color: inherit !important;
+}
+@media (max-width:992px) {
+  .nav-link{
+    margin-top: 0px !important;
+    padding-left: 0px !important;
+    margin-bottom: 0px !important;
+    padding-bottom: 0px !important;
+  }
+}
+.kind{
+  text-decoration: none;
+  color: #00b4c1;
+  background-color: white;  
+  border-radius: 15px;
+  padding-top: 15px;
+  width: 130px;
+  text-align: center;
+}
+.tt{
+  text-decoration: none;
+}

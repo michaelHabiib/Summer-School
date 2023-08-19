@@ -1,24 +1,23 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary" #navbar [@fadeIn]>
-    <div class="container-fluid">
-        <div class="flex">
+    <div class="container">
+        <div class="flex ps-2 fs-3">
           <i class="fa-solid fa-child-reaching pe-2"></i>
-          <a class="navbar-brand text-center">Summer School</a>
+          <a class="navbar-brand text-center fw-bold">Summer School</a>
         </div>
       <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"  >
         <span class="navbar-toggler-icon"></span>
       </button>
       
       <div class="collapse navbar-collapse dropdown-menu ps-3" id="navbarNavAltMarkup" >
-
-
         <div class="navbar-nav ms-auto" [@fadeIn] >
-          <a class="nav-link active ps-1" data-toggle="collapse" data-target=".navbar-collapse.show" routerLink="/" routerLinkActive="active"  aria-current="page" (click)="closeNavbar()">Home</a>
-          <a class="nav-link ps-1" routerLink="/about" data-toggle="collapse" data-target=".navbar-collapse.show" routerLinkActive="active" (click)="closeNavbar()">About us</a>
-          <a class="nav-link ps-1" routerLink="/contact"  data-toggle="collapse" data-target=".navbar-collapse.show" routerLinkActive="active" (click)="closeNavbar()">Contact us</a>
-          <a class="nav-link d-flex align-items-center" *ngIf="!(_SignupService.isRegistered$ | async)"  routerLinkActive="active" routerLink="/signUp"> Sign Up <i class="fa-solid fa-arrow-right ps-2 arrow"></i></a>
-          <a class="nav-link d-flex align-items-center" *ngIf="!(_SignupService.isRegistered$ | async)"  routerLinkActive="active" routerLink="/signIn"> Sign In <i class="fa-solid fa-arrow-right ps-2 arrow"></i></a>
-          <a class="nav-link text-start"  *ngIf="_SignupService.isRegistered$ | async" routerLinkActive="active" (click)="LogOut()" (click)="closeNavbar()">Log out </a>
-          <a class="text-start nav-link " *ngIf="_SignupService.isRegistered$ | async" >{{splitFirstNameOfUser(username).totalName}} {{splitFirstNameOfUser(username).code}}</a>
+          <a class="nav-link ps-1 mt-1 fs-6 d-flex align-items-center" data-toggle="collapse" data-target=".navbar-collapse.show" routerLink="/home" routerLinkActive="active"  aria-current="page" (click)="closeNavbar()">Home</a>
+          <a class="nav-link ps-1 mt-1 fs-6 d-flex align-items-center" routerLink="/about" data-toggle="collapse" data-target=".navbar-collapse.show" routerLinkActive="active" (click)="closeNavbar()">About us</a>
+          <a class="nav-link ps-1 mt-1 fs-6 d-flex align-items-center" routerLink="/contact"  data-toggle="collapse" data-target=".navbar-collapse.show" routerLinkActive="active" (click)="closeNavbar()">Contact us</a>
+          <a class="nav-link mt-1 fs-6 d-flex align-items-center" *ngIf="!(_SignupService.isRegistered$ | async)"  routerLinkActive="active" routerLink="/signUp" (click)="closeNavbar()"> Sign Up</a>
+          <a class="nav-link mt-1 fs-6 d-flex align-items-center" *ngIf="!(_SignupService.isRegistered$ | async)"  routerLinkActive="active" routerLink="/signIn" (click)="closeNavbar()"> Sign In</a>
+          <a class="nav-link mt-1 fs-6 d-flex align-items-center"  *ngIf="_SignupService.isRegistered$ | async" routerLinkActive="active" (click)="LogOut()" (click)="closeNavbar()">Log out </a>
+          <a class="nav-link mt-1 fs-6 d-flex align-items-center " *ngIf="_SignupService.isRegistered$ | async" >{{splitFirstNameOfUser(username).totalName}} {{splitFirstNameOfUser(username).code}}</a>
+          <a class="nav-link kind" *ngIf="kind == 'user'" [routerLink]="['/dashboard']" (click)="valueChanged('admin')" >Admin View</a>
         </div>
       </div>
     </div>

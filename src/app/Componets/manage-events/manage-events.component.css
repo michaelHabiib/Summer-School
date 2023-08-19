@@ -29,5 +29,8 @@ textarea{
 .btn-secondary {
     height: 45px !important;
 }
+.container{
+    min-height: 600px;
+}
   
 

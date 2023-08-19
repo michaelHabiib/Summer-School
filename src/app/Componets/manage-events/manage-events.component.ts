@@ -132,4 +132,4 @@ export class ManageEventsComponent implements OnInit {
     })
   }
 }
-// this announce For July Funday in Cairo Branch only For Bar Code Holders 
+ 

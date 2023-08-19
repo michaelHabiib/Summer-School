@@ -20,7 +20,9 @@
                   </div>
                 </li>
               </ul>
-              <button class="btn btn-success d-block"  (click)="ReserveNady(group, summerEvent.eventCode)">Book Now</button>
+              <button class="btn btn-success d-block"
+              (click)="ReserveNady(group, summerEvent.eventCode)" [disabled]="!group.avaliable"
+              >Book Now</button>
             </div>
           </mat-panel-description>
         </mat-expansion-panel>

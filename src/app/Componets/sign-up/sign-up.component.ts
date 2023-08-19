@@ -38,7 +38,7 @@ export class SignUpComponent {
   
     const names = control.value.split(' ');
     if (names.length < 4) {
-      return { 'name': 'Please enter at least 4 names' }; // Return an error object if the number of names is less than 4
+      return { 'name': 'Please enter at least 3 names' }; // Return an error object if the number of names is less than 4
     }
   
     return null; // Return null if the validation succeeds
@@ -77,7 +77,7 @@ export class SignUpComponent {
       return 'You must enter a value';
     }else{
       return '';
-    }
+    } 
   }
   GetErrorPhoneMsg(){
     if (this.SignUpForm1.controls.phoneForm.hasError('required')) {
@@ -126,7 +126,9 @@ export class SignUpComponent {
   }
   SignUp(){
     this.loading = true
-    
+    const birthdayDateString: any = this.SignUpForm3.controls.BirthdayDate.value;
+    const birthdayDate: Date = new Date(birthdayDateString);
+    const formattedBirthdayDate: string = birthdayDate.toISOString().substring(0, 10);
     let modal = {
       name : this.SignUpForm1.controls.NameForm.value,
       email : this.SignUpForm1.controls.EmailForm.value,
@@ -136,8 +138,9 @@ export class SignUpComponent {
       bulidingNumber : this.SignUpForm2.controls.bulidingNumber.value,
       street : this.SignUpForm2.controls.street.value,
       Area : this.SignUpForm2.controls.Area.value,
-      BirthdayDate : this.SignUpForm3.controls.BirthdayDate.value,
+      BirthdayDate : formattedBirthdayDate
     }
+    console.log(modal);
     
     this._SignupService.SignUp(modal).subscribe({
       next : (result) =>{

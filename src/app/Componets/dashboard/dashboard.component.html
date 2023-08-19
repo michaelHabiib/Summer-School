@@ -1,0 +1,90 @@
+<main class="my-3" >
+    <div class="container">
+        <div class="content row  ps-2">
+            <div class="card d-flex justify-content-center align-items-center col-lg-4 mx-1 my-1">
+                <span class="d-inline-block number fs-3 fw-bold mb-2" >{{totalusers}}</span>
+                <span class="d-inline-block fs-6 mt-2" >user</span>
+            </div>
+            <div 
+            class="card d-flex justify-content-center align-items-center col-lg-4 mx-1 my-1"
+             *ngFor="let class of totalusersInClass; let i = index" >
+                <span class="d-inline-block number fs-3 fw-bold mb-2" >{{class.count}}  </span>
+                <span class="d-inline-block mt-2 user" >user in</span>
+                <span class="d-inline-block fs-6 mt-2" >{{class.className}}</span>
+            </div>
+            <div 
+            class="card d-flex justify-content-center align-items-center col-lg-4 mx-1 my-1"
+             *ngFor="let funday of totalFunday; let i = index" >
+                <span class="d-inline-block number fs-3 fw-bold mb-2" >{{funday.count}}  </span>
+                <span class="d-inline-block user mt-2" >Reservtion </span>
+                <span class="d-inline-block fs-6 mt-2" >{{funday.name}}</span>
+            </div>
+            <div 
+            class="card d-flex justify-content-center align-items-center col-lg-4 mx-1 my-1"
+             *ngFor="let nady of totalNady; let i = index" >
+                <span class="d-inline-block number fs-3 fw-bold mb-2" >{{nady.count}}</span>
+                <span class="d-inline-block user mt-2" >Reservtion </span>
+                <span class="d-inline-block fs-6 mt-2" >{{nady.name}}</span>
+            </div>
+            <div 
+            class="card d-flex justify-content-center align-items-center col-lg-4 mx-1 my-1"
+             *ngFor="let fundayCash of totalFundayCash; let i = index" >
+                <span class="d-inline-block number fs-3 fw-bold mb-2" >{{fundayCash.totalCash}} <span class="fs-6 text-black fw-normal" >EGP</span></span>
+                <span class="d-inline-block fs-6 mt-2" >{{fundayCash.name}}</span>
+            </div>
+            <div 
+            class="card d-flex justify-content-center align-items-center col-lg-4 mx-1 my-1"
+             *ngFor="let NadyCash of totalNadyCash; let i = index" >
+                <span class="d-inline-block number fs-3 fw-bold mb-2" >{{NadyCash.totalCash}} <span class="fs-6 text-black fw-normal" >EGP</span></span>
+                <span class="d-inline-block fs-6 mt-2" >{{NadyCash.name}}</span>
+            </div>
+        </div>
+        <mat-accordion  >
+            <mat-expansion-panel >
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <i class="fa-solid fa-cake-candles ps-2 fs-4"></i> 
+                </mat-panel-title>
+                <mat-panel-description *ngIf="totalBirthdays.length" >
+                    {{totalBirthdays.length}} Birthday For Today
+                </mat-panel-description>
+                <mat-panel-description *ngIf="!totalBirthdays.length" >
+                    no Birthday For Today
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" *ngIf="totalBirthdays.length">
+              
+                <!-- Position Column -->
+                <ng-container matColumnDef="position">
+                  <th mat-header-cell *matHeaderCellDef> No. </th>
+                  <td mat-cell *matCellDef="let element; let i = index"> {{i+1}} </td>
+                </ng-container>
+              
+                <!-- Code Column -->
+                <ng-container matColumnDef="code">
+                  <th mat-header-cell *matHeaderCellDef> Code </th>
+                  <td mat-cell *matCellDef="let element"> {{element.code}} </td>
+                </ng-container>
+              
+                <!-- Name Column -->
+                <ng-container matColumnDef="name"  >
+                  <th mat-header-cell *matHeaderCellDef> Name </th>
+                  <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                </ng-container>
+              
+                <!-- Phone Column -->
+                <ng-container matColumnDef="phone">
+                  <th mat-header-cell *matHeaderCellDef> Phone </th>
+                  <td mat-cell *matCellDef="let element"><a class="link" href="{{'tel:'+'0'+element.phone}}"> 0{{element.phone}}</a></td>
+                </ng-container>
+              
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+</main>
+<div class="loading-layout" *ngIf= "loading">
+    <mat-spinner  class="loading" ></mat-spinner>
+  </div>

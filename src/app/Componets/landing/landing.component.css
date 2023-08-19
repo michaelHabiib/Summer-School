@@ -1,56 +1,47 @@
-.wave {
-  position: relative;
-  width: 100%;
-  height: 200px;
-  background: #f5b942;
+.container{
+  height: 400px;
 }
-
-.wave:before {
-  content: "";
-  display: block;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 20px;
-  background: linear-gradient(to right, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0));
-  transform-origin: bottom;
-  animation: wave 1s ease-in-out infinite;
+ .image {
+  margin-left: 15px;
 }
-
-@keyframes wave {
-  0% {
-    transform: skewX(-30deg) translateX(-100%);
+ .image .img{
+  animation: up-and-down 6s linear infinite;
+}
+.text{
+  width: 40%;
+  padding: 25x;
+}
+p{
+  line-height: 2;
+}
+.btn{
+  background-color: #00b4c1;
+  color: white;
+}
+@media (max-width:991px) {
+.container .image img {
+      display: none;
   }
-  50% {
-    transform: skewX(30deg) translateX(100%);
+  .container .image {
+      display: none;
   }
-  100% {
-    transform: skewX(-30deg) translateX(-100%);
+  .container{
+    height: 250px;
+  }
+.container .text{
+      text-align: center;
+      width: auto;
+      margin: auto;
+  }
+ .container{
+      justify-content: center;
   }
 }
-  /* .carousel-container {
-    position: relative;
-  } */
-  .carousel-item img{
-    width: 100%;
-    height: 570px;
+@media (max-width:767px) {
+ .container .text h1{
+      font-size: 29px;
   }
-  .carousel-container {
-    position: relative;
+.container .text p{
+      font-size: 16px;
   }
-  .carousel-cover {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.2); /* Change the color and opacity as desired */
-    z-index: 1;
-  }
-  .carousel {
-    z-index: 0;
-  }
-  .carousel-control-prev, .carousel-control-next {
-    z-index: 2;
-  }
+}

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { trigger, transition, style, animate, state } from '@angular/animations';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ReservtionService } from 'src/app/services/reservtion.service';
 import { EventService } from 'src/app/services/event.service';
 import { SignupService } from 'src/app/services/signup.service';
@@ -61,7 +61,8 @@ export class OurServicesComponent implements OnInit {
   constructor(private _ReservtionService: ReservtionService,
               public _SignupService : SignupService,
               public EventService : EventService,
-              public _snackBar : MatSnackBar){}
+              public _snackBar : MatSnackBar,
+              public formBuilder : FormBuilder){}
 
   NewResForFunday = new FormGroup({
     Date: new FormControl('', [Validators.required]),
@@ -77,8 +78,14 @@ export class OurServicesComponent implements OnInit {
     this.EventService.getAllEvents().subscribe({
       next : (result) => {
         this.loading = false
-        this.SummerEvents = result
-        console.log(this.SummerEvents);
+        this.SummerEvents = result.map((event: any) => ({
+          ...event,
+          form: this.formBuilder.group({
+            Date: ['', Validators.required],
+            Color: ['', Validators.required],
+            eventCode: [event.eventCode] // Assuming eventCode is a property of each event
+          })
+        }));
       },
       error : (err) =>{
         console.log(err);
@@ -88,19 +95,21 @@ export class OurServicesComponent implements OnInit {
   toggleArrowState() {
     this.arrowState = this.arrowState === 'up' ? 'down' : 'up';
   }
-
-  AddNewResFunday (eventCode : string){
+  AddNewResFunday (event : any){
     if(localStorage.getItem('token')){
       this.loading = true 
-      if(this.NewResForFunday.status == 'VALID'){
+      console.log(event);
         let modal = {
           code: localStorage.getItem('code'),
-          eventCode : eventCode,
-          dateTime : this.NewResForFunday.controls.Date.value,
-          color : this.NewResForFunday.controls.Color.value,
+          name : localStorage.getItem('name'),
+          eventCode : event.eventCode,
+          dateTime : event.form.value.Date,
+          color : event.form.value.Color,
           userID : localStorage.getItem('userID'),
           isPaid: false
         }
+        console.log(modal);
+        
         let token = localStorage.getItem('token')
         this._ReservtionService.ReservFunday(modal, token).subscribe({
           next : (result) =>{
@@ -113,8 +122,6 @@ export class OurServicesComponent implements OnInit {
             this.openSnackBar(err.error.message)
           }
         })
-      }else{
-      }
     }else{
       Swal.fire('Please Login First ')
     }

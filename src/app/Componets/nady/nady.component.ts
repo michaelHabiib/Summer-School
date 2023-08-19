@@ -24,7 +24,6 @@ export class NadyComponent implements AfterViewInit, OnInit {
   }
   loading = false;
   message : String | undefined 
-  weeks = this._ReservtionService.weeks
   SummerEvents :any [] = []
   getAllEvents(){
     this.loading = true
@@ -60,6 +59,7 @@ export class NadyComponent implements AfterViewInit, OnInit {
       this.loading = true
       let modal = {
         code : localStorage.getItem('code'),
+        name : localStorage.getItem('name'),
         geroupID : group._id,
         eventCode : eventCode,
         userID : localStorage.getItem('userID')

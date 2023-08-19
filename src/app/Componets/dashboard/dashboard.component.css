@@ -1,0 +1,29 @@
+main{
+    min-height: 600px !important;
+}
+main .card{
+    background-color: #eeeff0;
+    width: 160px;
+    height: 120px;
+}
+main .card .number{
+    color: #00b4c1;
+}
+.fa-cake-candles{
+    color: #00b4c1;
+}
+.link{
+    text-decoration: none;
+}
+.small{
+    font-size: 15px;
+    font-weight: normal;
+    color: black;
+    position: absolute;
+    bottom: 58px;
+    left: 90px;
+}
+.user{
+    font-size: 12px;
+}
+

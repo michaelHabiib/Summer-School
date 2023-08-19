@@ -1,5 +1,5 @@
 import { trigger, transition, style, animate } from '@angular/animations';
-import { Component } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-landing',
@@ -17,6 +17,9 @@ import { Component } from '@angular/core';
     ])
   ]
 })
-export class LandingComponent {
+export class LandingComponent implements OnInit {
+  ngOnInit(): void {    
+      localStorage.setItem('admin','user')
+  }
 
 }

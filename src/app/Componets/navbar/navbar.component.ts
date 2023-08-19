@@ -33,15 +33,13 @@ export class NavbarComponent implements OnInit  {
   code! : any
   username! : any
   width!: any
+  kind : string = 'user'
   @ViewChild('navbar', { static: true })
   navbar!: ElementRef;
   constructor(private router: Router,
      public _SignupService : SignupService,
      private cdr: ChangeDetectorRef){
   } 
-  toggleLinks() {
-    this.showLinks = !this.showLinks;
-  }
 
   closeNavbar() {
     if (window.innerWidth < 992) {
@@ -72,12 +70,14 @@ export class NavbarComponent implements OnInit  {
     sessionStorage.removeItem('code');
     this.router.navigate(['signIn'])
   }
-  // simplefun(){
-  //   const result = this.splitFirstNameOfUser();
-  //   this.firstName = result.firstName;
-  //   this.code = result.code;
-  //   this.cdr.detectChanges();
-  // }
+  valueChanged(kind : string){
+    this.kind =  kind
+    // this.kind = this._SignupService.kind
+    this._SignupService.changeAdmin(this.kind);
+    localStorage.setItem('admin', this.kind);
+    this._SignupService.kind = this.kind
+  }
+
   ngOnInit() {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -86,9 +86,13 @@ export class NavbarComponent implements OnInit  {
     });
     this._SignupService.isRegisteredChanged.subscribe((value: boolean) => {
       this.isRegstired = value
-      console.log(this.isRegstired);
-      
     })
+    this.kind = this._SignupService.kind;
+        if (!localStorage.getItem('admin')) {
+      localStorage.setItem('admin', 'user');
+    }
+    this.kind = localStorage.getItem('admin')!;
+
     this.username = localStorage.getItem('name')
     this.code = localStorage.getItem('code')
   }

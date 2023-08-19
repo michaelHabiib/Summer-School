@@ -6,7 +6,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { ActivatedRoute } from '@angular/router';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
 // import { saveAs } from 'file-saver';
 interface User {
   code: string;
@@ -34,6 +34,7 @@ export class AttandenceComponent implements OnInit, AfterViewInit {
   modal : any
   today = new Date().toISOString().substring(0,10)
   todayGen = new Date().toISOString().substring(0,10)
+  todayGen1 = new Date().toISOString().substring(0,10)
   DayString = ''
   selectedDate!: any;
   selectedDateGen!: any;
@@ -53,7 +54,7 @@ export class AttandenceComponent implements OnInit, AfterViewInit {
   isGeneralTableVisible : Boolean = true
   loading = false
   year!: any;
-  selectedDayToDownloadSheet! : any
+  selectedDayToDownloadSheet = this.formatDate(new Date());
   message! : string
   StartDateSelected! : any
   EndDateSelected! : any
@@ -61,9 +62,11 @@ export class AttandenceComponent implements OnInit, AfterViewInit {
   userData : any
   Attendance : any
   AttendanceTrue : any
+  haveData : boolean = false
 
   constructor(private _ReservtionService :ReservtionService,
-  private route : ActivatedRoute){}
+              private route : ActivatedRoute,
+              private _snackBar: MatSnackBar){}
   ngAfterViewInit(): void {
     window.scrollTo(0, 0);
   }
@@ -74,36 +77,25 @@ export class AttandenceComponent implements OnInit, AfterViewInit {
 
   // function to Get All Users
   GetAllUsers(){
-    // console.log(this.year);
+    this.loading = true
+    this.GetAttendanceOfDay()                                             
     this._ReservtionService.GetUsersByYear(this.year).subscribe({
       next : (result) =>{
-        // console.log(result);
-        this.users = result.users
+        this.loading = false
+        this.users = result.users 
       },
       error : (err) =>{
-        console.log(err);
+        this.openSnackBar(err.error.message)
       }
     })
   }
-
-  // function to listen to what user select than make some functionlty to display every user and his attedance()
-  onDateChangeGenrate(event: MatDatepickerInputEvent<Date>){
-    this.loading = true
-    this.isGeneralTableVisible = true
-    this.selectedDateGen = event.target.value
-    this.AttDateGen = new Date(Date.UTC(this.selectedDateGen.getFullYear(), this.selectedDateGen.getMonth(), this.selectedDateGen.getDate())).toISOString().slice(0, 10);
-    // console.log(this.AttDateGen);
-
-    this.GetAllUsers()
-
-    this._ReservtionService.GetAttOfDay(this.AttDateGen, this.year).subscribe({
+  GenrateDate(){
+    this._ReservtionService.GetAttOfDay(this.todayGen1, this.year).subscribe({
       next : (result) =>{
-        // console.log(result);
         this.AttendanceDataGen = result
           this.dataSourceItemsGen = [];
           this.users.forEach(user =>{
             const alreadyHaveAttendance = this.AttendanceDataGen.find((a) => a.code === user.code)
-            
             if(alreadyHaveAttendance){
               if(alreadyHaveAttendance.isChecked){
                 this.dataSourceItemsGen.push({
@@ -134,17 +126,66 @@ export class AttandenceComponent implements OnInit, AfterViewInit {
         console.log(err);
       }
     })
+  }
+
+  // function to listen to what user select than make some functionlty to display every user and his attedance()
+  onDateChangeGenrate(event: MatDatepickerInputEvent<Date>){
+    this.loading = true
+    this.isGeneralTableVisible = true
+    this.selectedDateGen = event.target.value
+    this.AttDateGen = new Date(Date.UTC(this.selectedDateGen.getFullYear(), this.selectedDateGen.getMonth(), this.selectedDateGen.getDate())).toISOString().slice(0, 10);
+
+
+    this.GetAllUsers()
+
+    this._ReservtionService.GetAttOfDay(this.AttDateGen, this.year).subscribe({
+      next : (result) =>{
+        this.AttendanceDataGen = result
+          this.dataSourceItemsGen = [];
+          this.users.forEach(user =>{
+            const alreadyHaveAttendance = this.AttendanceDataGen.find((a) => a.code === user.code)
+            if(alreadyHaveAttendance){
+              if(alreadyHaveAttendance.isChecked){
+                this.dataSourceItemsGen.push({
+                  code : user.code,
+                  name : user.name,
+                  Attedance : 'Yes'
+                })
+              }else{
+                this.dataSourceItemsGen.push({
+                  code : user.code,
+                  name : user.name,
+                  Attedance : 'No'
+                })
+              }
+            }else{
+              this.dataSourceItemsGen.push({
+                code : user.code,
+                name : user.name,
+                Attedance : 'No'
+              })
+            }
+          })
+        this.loading = false
+        this.dataSourceGen = new MatTableDataSource(this.dataSourceItemsGen);
+        this.dataSourceGen.sort = this.sort;
+      },
+      error : (err) =>{
+        console.log(err);
+      }
+    })
     
   }
-  onDateChange(event: MatDatepickerInputEvent<Date>) {
-    this.loading = true
-    this.isGeneralTableVisible = false
-    this.selectedDate = event.target.value;
-    this.AttDate = new Date(Date.UTC(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), this.selectedDate.getDate())).toISOString().slice(0, 10);
-    
-    this.GetAllUsers()
-    
-    this._ReservtionService.GetAttOfDay(this.AttDate,this.year).subscribe({
+  openSnackBar(message: string) {
+    this._snackBar.open(message, '',{
+      duration: 4000, // 5 seconds
+      panelClass: 'custom-snackbar',
+      verticalPosition: 'bottom', 
+      horizontalPosition: 'center'
+    });
+  }
+  GetAttendanceOfDay(){
+    this._ReservtionService.GetAttOfDay(this.today,this.year).subscribe({
       next : (result) =>{
         this.AttendanceData = result
         this.dataSourceItems = []
@@ -180,6 +221,54 @@ export class AttandenceComponent implements OnInit, AfterViewInit {
         this.dataSource.sort = this.sort;
       },
       error : (err) =>{
+        // console.log(err);
+      }
+    })
+  }
+  onDateChange(event: MatDatepickerInputEvent<Date>) {
+
+    this.loading = true
+    this.isGeneralTableVisible = false
+    this.selectedDate = event.target.value;
+    this.AttDate = new Date(Date.UTC(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), this.selectedDate.getDate())).toISOString().slice(0, 10);    
+    this.GetAllUsers()
+    this._ReservtionService.GetAttOfDay(this.AttDate,this.year).subscribe({
+      next : (result) =>{
+        this.AttendanceData = result
+        this.dataSourceItems = []
+        this.users.forEach(user => {
+          const attendanceOfUser = this.AttendanceData.find((a) => a.code === user.code)
+          if(attendanceOfUser){
+            if(attendanceOfUser.isChecked){
+              this.dataSourceItems.push({
+                code : user.code,
+                name : user.name,
+                isChecked : true,
+                userID : user._id 
+              })
+            }else{
+              this.dataSourceItems.push({
+                code : user.code,
+                name : user.name,
+                isChecked : false,
+                userID : user._id 
+              })
+            }
+          }else{
+            this.dataSourceItems.push({
+              code : user.code,
+              name : user.name,
+              isChecked : false,
+              userID : user._id 
+            })
+          }
+        })
+        this.loading = false
+        this.dataSource = new MatTableDataSource(this.dataSourceItems);
+        this.dataSource.sort = this.sort;
+
+      },
+      error : (err) =>{
         console.log(err);
       }
     })
@@ -198,7 +287,6 @@ export class AttandenceComponent implements OnInit, AfterViewInit {
       this.dataSourceGen.filter = filterValue.trim().toLowerCase();
     }
   }
-
   // function to send attedance
   submitForm(data:AttData){
     this.modal = {
@@ -210,25 +298,33 @@ export class AttandenceComponent implements OnInit, AfterViewInit {
     }
     this._ReservtionService.SaveAttendance(this.modal).subscribe({
       next : (result)=>{
-        console.log(result);
-        
+        this.openSnackBar(result.message)
       },
       error : (err) =>{
-        console.log(err);
+        this.openSnackBar(err.error.message)
       }
     })
   }
-  SelectDate(event: MatDatepickerInputEvent<Date>){
-    this.selectedDayToDownloadSheet = event.target.value
-    this.selectedDayToDownloadSheet = new Date(Date.UTC(this.selectedDayToDownloadSheet.getFullYear(), this.selectedDayToDownloadSheet.getMonth(), this.selectedDayToDownloadSheet.getDate())).toISOString().slice(0, 10);
+  SelectDate(event: MatDatepickerInputEvent<Date>) {
+    const selectedDate: Date = event.target.value as Date; // Assuming event.target.value is of type Date
+    if (selectedDate) {
+      this.selectedDayToDownloadSheet = this.formatDate(selectedDate);
+    } else {
+    }
+  }
+  formatDate(date: Date): string {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear().toString();
+    return `${year}-${month}-${day}`;
   }
   exportAttendance() {
-    this._ReservtionService.downloadAttendanceSheet(this.selectedDayToDownloadSheet,this.year).subscribe(() => {
+    this._ReservtionService.downloadAttendanceSheet(this.selectedDayToDownloadSheet,this.year).subscribe(() => { 
       this.loading = false
-      this.message = 'File downloaded successfully.'},
+      this.openSnackBar('File downloaded successfully.')
+      },
       (error) => {
-        console.log(error);
-        alert('Error downloading file.');
+        this.openSnackBar('Error downloading file.')
       })
   }
   chooseClass(year :any){
@@ -237,13 +333,13 @@ export class AttandenceComponent implements OnInit, AfterViewInit {
     }else if(year === 'user'){
       return 'Get Attendance Of Spesfic User'
     }else if (year === 'bc'){
-      return 'Baby Class Attendance'
+      return 'Baby Class'
     }else if (year === 'kg1'){
-      return 'KG1 Class Attendance'
+      return 'KG1 Class'
     }else if (year === 'kg2'){
-      return 'KG2 Class Attendance'
+      return 'KG2 Class'
     }else if (year === 'prim1'){
-      return 'Prim 1 Class Attendance'
+      return 'Prim 1 Class'
     }else{
       return ''
     }
@@ -251,10 +347,10 @@ export class AttandenceComponent implements OnInit, AfterViewInit {
   onSubmit(event : any){
     this.loading = true
     const userCode = event.target.querySelector('input').value;
-    console.log(userCode); 
     this._ReservtionService.GetAttendanceOfUser(userCode).subscribe({
       next : (result) =>{
         this.loading = false
+        this.haveData = true
         this.AttendanceTrue = []
         this.userData = result.user
         this.Attendance = result.AttendanceData
@@ -265,16 +361,24 @@ export class AttandenceComponent implements OnInit, AfterViewInit {
         }        
       },
       error : (err) =>{
-        console.log(err);
+        this.haveData = false
+        this.AttendanceTrue = []
+        this.Attendance = []
+        this.userData = {}
+        this.loading = false
+        this.openSnackBar(err.error.message)
+        // console.log(err);
       }
     })
     
   }
   ngOnInit() {
+    this.AttDate = new Date().toISOString().substring(0,10)
     this._ReservtionService.selectedValueChanged.subscribe(value => {
         this.year = value;
-      console.log(this.year);
-      
+        this.GetAllUsers()
+        this.GetAttendanceOfDay()
+        this.GenrateDate()
     });
   }
 

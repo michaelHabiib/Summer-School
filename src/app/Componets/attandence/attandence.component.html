@@ -1,5 +1,5 @@
-<h2 class="text-center mt-2">Save Attandence of Kids</h2>
-<h3 class="text-center fw-bold pt-1">{{chooseClass(this.year)}}</h3>
+<h2 class="text-center mt-2" *ngIf="!(this.year ==='user')" >Save Attandence of Kids</h2>
+<h3 class="text-center fw-bold pt-1 mt-3">{{chooseClass(this.year)}}</h3>
 <div class="container">
     <mat-tab-group>
         <mat-tab label=" Save Attendance" *ngIf="!(this.year ==='user')">
@@ -13,7 +13,7 @@
               </mat-form-field>
             <mat-form-field appearance="outline">
                 <mat-label>Filter</mat-label>
-                <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Michael" #input>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Michael || 4523" #input>
               </mat-form-field>
         </div>
             <table mat-table [dataSource]="dataSource" MatSort class="mat-elevation-z8">
@@ -61,14 +61,14 @@
             <div class="d-flex justify-content-evenly mt-2">
                 <mat-form-field>
                     <mat-label>Choose a date</mat-label>
-                    <input matInput [matDatepicker]="datepicker1" readonly (dateChange)="onDateChangeGenrate($event)" [(ngModel)]="todayGen" >
+                    <input matInput [matDatepicker]="datepicker1" readonly (dateChange)="onDateChangeGenrate($event)" [(ngModel)]="todayGen1" >
                     <mat-hint>DD/MM/YYYY</mat-hint>
                     <mat-datepicker-toggle matIconSuffix [for]="datepicker1"></mat-datepicker-toggle>
                     <mat-datepicker #datepicker1></mat-datepicker>
                   </mat-form-field>
                 <mat-form-field appearance="outline">
                     <mat-label>Filter</mat-label>
-                    <input matInput (keyup)="applyFilterGen($event)" placeholder="Ex. Michael" #input>
+                    <input matInput (keyup)="applyFilterGen($event)" placeholder="Ex. Michael || 4523" #input>
                   </mat-form-field>
             </div>
             <table mat-table [dataSource]="dataSourceGen" MatSort class="mat-elevation-z8">
@@ -126,23 +126,31 @@
 
         </mat-tab>
         <mat-tab label="Attendance of User" *ngIf="(this.year ==='user')"> 
-          <div class="d-flex justify-content-center mt-3">
+          <div class="d-flex justify-content-center mt-3 user">
           <form (ngSubmit)="onSubmit($event)" >
             <mat-form-field class="example-full-width"  appearance="outline">
               <mat-label>User Code</mat-label>
               <input matInput  [(ngModel)]="userCode" placeholder="EX : 4544" >
             </mat-form-field>
-            <button class="btn btn-success" type="submit" >Submit</button>
+            <button class="btn btn-success" type="submit">Submit</button>
           </form>
           </div>
-          <div class="row" *ngIf="userData" >
-            <p class="d-flex justify-content-evenly fs-5" ><span>Code : {{userData.code}}</span> <span>Name : {{userData.name}}</span> <span>Class : {{userData.year}}</span></p>
+          <div class="row" *ngIf="userData && haveData" >
+            <p class="d-flex justify-content-evenly fs-5 ps-4">
+              <span class="d-block pb-2"> <strong>Code</strong>   {{userData.code}}</span>
+              <span class="d-block pb-2"><strong>Name</strong> {{userData.name}}</span>
+              <span class="d-block"><strong>Class</strong> {{userData.year}}</span>
+            </p>
           </div>
-          <mat-list role="list" *ngIf="userData">
-            <mat-list-item role="listitem" *ngFor="let att of AttendanceTrue">{{att.AttDate}}</mat-list-item>
-          </mat-list>
+          <div *ngIf="userData && haveData && AttendanceTrue.length " class="data" >
+            <span *ngFor="let att of AttendanceTrue" class="timeline-group-time mx-2 pb-2">{{att.AttDate}}</span>
+          </div>
+          <div class="ss" *ngIf="AttendanceTrue">
+            <div *ngIf="!AttendanceTrue.length && !haveData ">
+              <span class="timeline-group-time mx-auto">No Attendance For this Code</span>
+            </div>
+          </div>
         </mat-tab>
-        
       </mat-tab-group>
 </div>
 <div class="loading-layout" *ngIf= "loading">

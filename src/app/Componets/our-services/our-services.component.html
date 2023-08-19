@@ -20,7 +20,7 @@
              >{{event.price}} EGP</span>
           </mat-card-content>
           <mat-card-actions class="mb-0">
-            <form class="mb-0"[formGroup]="NewResForFunday" *ngIf="event.colors.length > 0" >
+            <form class="mb-0"[formGroup]="event.form" *ngIf="event.colors.length > 0" >
               <div class="">
                 <mat-form-field appearance="outline" class="me-1" >
                   <mat-label>Color</mat-label>
@@ -34,15 +34,15 @@
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="ms-1">
                   <mat-label>Date</mat-label>
-                  <mat-select   formControlName="Date">
+                  <mat-select formControlName="Date">
                     <mat-option *ngFor="let datee of event.avaliableDates" 
-                     value="{{datee._id}}">
+                     value="{{datee._id}}" [disabled]="!datee.avaliable">
                      {{datee.date}} at {{datee.time}}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
-              <button (click)="AddNewResFunday(event.eventCode)" class="mx-auto btn btn-danger w-100" [disabled]="!NewResForFunday.valid">Book Now</button>
+              <button (click)="AddNewResFunday(event)" class="mx-auto btn btn-danger w-100" [disabled]="!event.form.valid">Book Now</button>
             </form>
             <div class="d-flex mx-auto align-items-center flex-column my-2" *ngIf="event.colors.length == 0">
               <mat-icon class="arrow-icon fs-2 my-3" [@bounce]="arrowState" (click)="toggleArrowState()">expand_more</mat-icon>

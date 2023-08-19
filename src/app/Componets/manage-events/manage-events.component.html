@@ -54,7 +54,7 @@
                     <mat-select (selectionChange)="updateAvabiltyOfColor($event, j)" class="text-white" >
                       <mat-option *ngFor="let color of  eventForm.colors" 
                       [value]="color.color" 
-                      [ngStyle]="{'background-color': !color.avaliable ? '(238, 87, 87)' : (color.avaliable ? 'transparent' : null)}">
+                      [ngStyle]="{'background-color': !color.avaliable ? 'gray' : (color.avaliable ? 'transparent' : null)}">
                        {{color.color}}</mat-option>
                     </mat-select>
                 </mat-form-field>
